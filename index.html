@@ -3,174 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GEOVANA & FELIPE 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Surpresa para a Doutorinha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        body, html { 
-            width: 100%; height: 100%; 
-            background: #121212; 
-            overflow: hidden; 
+        body {
+            background: #7000ff; /* Roxo Vibrante */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
             font-family: 'Arial', sans-serif;
         }
 
-        /* FUNDO DINÂMICO PARA MOSTRAR QUE ESTÁ VIVO */
-        #game-canvas {
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(45deg, #ff007f, #7000ff, #00e5ff);
-            background-size: 400% 400%;
-            animation: gradientMove 10s ease infinite;
-            z-index: 1;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* INSTRUÇÃO GIGANTE ESTILO ARCADE */
-        #overlay-instrucao {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
+        /* CONTAINER DO ENVELOPE */
+        #envelope-container {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background: #ffee00; /* Amarelo Cartoon */
+            border: 8px solid #000;
+            box-shadow: 15px 15px 0 #000;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            pointer-events: none; /* Deixa o toque passar para o fundo */
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
         }
 
-        .alerta-cartoon {
-            background: #ffee00;
-            border: 10px solid #000;
-            padding: 20px;
-            box-shadow: 15px 15px 0 #000;
+        /* TEXTO EM CIMA DO ENVELOPE */
+        #envelope-container::after {
+            content: 'TOQUE PARA ABRIR ✉️';
             font-family: 'Bangers', cursive;
-            font-size: 2rem;
-            text-align: center;
-            transform: rotate(-3deg);
-            animation: pulse 0.6s infinite alternate;
+            font-size: 1.5rem;
+            color: #000;
         }
 
-        @keyframes pulse {
-            from { transform: rotate(-3deg) scale(1); }
-            to { transform: rotate(3deg) scale(1.1); }
-        }
-
-        /* O CONVITE QUE SURGE DO NADA */
-        #convite-voador {
+        /* PAPEL QUE FICA ESCONDIDO DENTRO */
+        #papel-surpresa {
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 85%;
-            max-width: 350px;
+            width: 280px;
+            height: 180px;
             background: #fff;
-            border: 8px solid #000;
+            border: 5px solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
             text-align: center;
-            z-index: 500;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(0);
+            opacity: 0;
+            z-index: 5;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .frase-doutorinha {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2rem;
+            color: #ff007f; /* Rosa Choque */
+            line-height: 1.2;
+        }
+
+        /* ANIMAÇÃO DE RASGAR */
+        .rasgado {
+            animation: explodeEnvelope 0.6s forwards;
+            pointer-events: none;
+        }
+
+        @keyframes explodeEnvelope {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2) rotate(5deg); border-style: dashed; }
+            100% { transform: scale(0) rotate(-20deg); opacity: 0; }
+        }
+
+        .mostrar-papel {
+            transform: scale(1.2) !important;
+            opacity: 1 !important;
+            z-index: 100 !important;
             box-shadow: 10px 10px 0 #ffee00;
         }
 
-        .show-convite { transform: translate(-50%, -50%) scale(1) !important; }
-
-        h1 { font-family: 'Bangers', cursive; font-size: 2.5rem; color: #ff007f; -webkit-text-stroke: 1px #000; }
-        .data { font-family: 'Press Start 2P', cursive; font-size: 0.6rem; margin: 15px 0; line-height: 1.5; }
-
-        /* PARTÍCULAS DE DESENHO ANIMADO */
-        .sprite {
+        /* EFEITOS DE BRILHO AO CLICAR */
+        .confete {
             position: fixed;
+            font-size: 2rem;
             pointer-events: none;
-            z-index: 2000;
-            font-size: 4rem;
-            filter: drop-shadow(5px 5px 0 #000);
+            z-index: 200;
         }
     </style>
 </head>
-<body onclick="explodir(event)" ontouchstart="explodir(event)">
+<body onclick="abrirEnvelope(event)">
 
-    <div id="game-canvas"></div>
+    <div id="envelope-container"></div>
 
-    <div id="overlay-instrucao">
-        <div class="alerta-cartoon" id="txt-inst">
-            SOCA A TELA!<br>
-            <span style="font-size: 1rem;">(TOQUE PARA REVELAR)</span>
-        </div>
+    <div id="papel-surpresa">
+        <h1 class="frase-doutorinha">E aí, doutorinha, gostou?</h1>
     </div>
 
-    <main id="convite-voador">
-        <h1>GEOVANA & FELIPE</h1>
-        <div class="data">
-            GAME OVER PARA A SOLTEIRICE!<br>
-            01 . 01 . 2026<br>
-            IGREJA N. S. DAS DORES
-        </div>
-        <div id="timer" style="font-family: 'Bangers'; font-size: 1.5rem; color: #7000ff;">00:00:00</div>
-        <button onclick="window.location.reload()" style="margin-top: 15px; padding: 10px; background: #00e5ff; border: 3px solid #000; font-family: 'Bangers'; width: 100%;">JOGAR DE NOVO</button>
-    </main>
-
     <script>
-        let toques = 0;
-        const metaToques = 5;
+        function abrirEnvelope(e) {
+            const envelope = document.getElementById('envelope-container');
+            const papel = document.getElementById('papel-surpresa');
 
-        function explodir(e) {
-            const x = e.clientX || (e.touches && e.touches[0].clientX);
-            const y = e.clientY || (e.touches && e.touches[0].clientY);
+            // Só executa se o envelope ainda existir
+            if (!envelope.classList.contains('rasgado')) {
+                envelope.classList.add('rasgado');
+                
+                // Delay para o papel aparecer após o envelope "sumir"
+                setTimeout(() => {
+                    papel.classList.add('mostrar-papel');
+                    document.body.style.background = '#00e5ff'; // Muda fundo para azul neon
+                }, 400);
 
-            toques++;
-
-            // Criar efeitos visuais de impacto
-            for(let i=0; i<8; i++) {
-                criarSprite(x, y);
-            }
-
-            // Lógica de revelação progressiva
-            if(toques >= metaToques) {
-                document.getElementById('txt-inst').style.display = 'none';
-                document.getElementById('convite-voador').classList.add('show-convite');
-            } else {
-                // Faz a instrução reagir a cada toque
-                document.getElementById('txt-inst').innerText = `FALTAM ${metaToques - toques} GOLPES!`;
+                // Explosão de brilhos no local do clique
+                const x = e.clientX || e.touches[0].clientX;
+                const y = e.clientY || e.touches[0].clientY;
+                for(let i=0; i<15; i++) {
+                    criarConfete(x, y);
+                }
             }
         }
 
-        function criarSprite(x, y) {
+        function criarConfete(x, y) {
             const el = document.createElement('div');
-            el.className = 'sprite';
-            const itens = ['👊', '💥', '✨', '💍', '💖', '🔥', '⚡'];
+            el.className = 'confete';
+            const itens = ['✨', '💖', '🎓', '💎', '🌸', '⚡'];
             el.innerHTML = itens[Math.floor(Math.random() * itens.length)];
             el.style.left = x + 'px';
             el.style.top = y + 'px';
             document.body.appendChild(el);
 
-            const angulo = Math.random() * Math.PI * 2;
-            const forca = Math.random() * 300 + 100;
-            const dx = Math.cos(angulo) * forca;
-            const dy = Math.sin(angulo) * forca;
+            const dx = (Math.random() - 0.5) * 500;
+            const dy = (Math.random() - 0.5) * 500;
 
             el.animate([
-                { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: 1 },
-                { transform: `translate(${dx}px, ${dy}px) scale(0) rotate(720deg)`, opacity: 0 }
+                { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                { transform: `translate(${dx}px, ${dy}px) scale(0) rotate(360deg)`, opacity: 0 }
             ], {
-                duration: 800,
+                duration: 1000,
                 easing: 'ease-out'
             }).onfinish = () => el.remove();
         }
-
-        // Timer de Casamento
-        setInterval(() => {
-            const diff = new Date("2026-01-01T19:00:00") - new Date();
-            if(diff > 0) {
-                const d = Math.floor(diff / (1000*60*60*24));
-                const h = Math.floor((diff / (1000*60*60)) % 24);
-                const m = Math.floor((diff / 1000 / 60) % 60);
-                document.getElementById('timer').innerText = `${d}D ${h}H ${m}M`;
-            }
-        }, 1000);
     </script>
 </body>
 </html>
