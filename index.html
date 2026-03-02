@@ -2,251 +2,174 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Convite Real: Geovana & Felipe</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite Geovana & Felipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold-primary: #bf9b30;
-            --gold-secondary: #e7d19a;
-            --gold-dark: #8c6212;
-            --bg-dark: #0a0a0a; /* Fundo preto para o dourado brilhar */
-            --text-light: #ffffff;
-            --font-cinzel: 'Cinzel Decorative', serif;
-            --font-vibes: 'Great Vibes', cursive;
-            --font-montserrat: 'Montserrat', sans-serif;
-            --transition-epic: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        /* Reset e Base Otimizada para Celular */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body, html { 
-            height: 100%; 
-            width: 100%; 
-            background-color: var(--bg-dark); 
-            font-family: var(--font-montserrat); 
-            overflow: hidden; /* Previne scroll durante a animação inicial */
-            color: var(--text-light);
-        }
-
-        /* --- CONTAINER PRINCIPAL DO CONVITE --- */
-        .main-stage {
-            perspective: 1500px; /* Necessário para efeito 3D */
-            width: 100%;
-            height: 100%;
+        /* CSS REFORÇADO PARA GARANTIR VISIBILIDADE */
+        body {
+            margin: 0;
+            background: #000; /* Fundo preto puro */
+            color: #fff;
+            font-family: 'serif';
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            height: 100vh;
         }
 
-        /* --- O ENVELOPE (Fase 1: Fechado) --- */
-        .envelope-wrapper {
-            width: 100%;
-            max-width: 400px;
-            height: 80vh; /* Altura dramática no celular */
-            background: radial-gradient(circle, #2a2a2a 0%, #1a1a1a 100%);
-            border: 2px solid var(--gold-primary);
-            border-radius: 10px;
-            box-shadow: 0 0 50px rgba(191, 155, 48, 0.3);
-            cursor: pointer;
-            transition: var(--transition-epic);
+        /* O ENVELOPE QUE DEVE APARECER PRIMEIRO */
+        #envelope {
+            width: 320px;
+            height: 450px;
+            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+            border: 3px solid #bf9b30; /* Dourado bem visível */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 30px #bf9b30;
+            z-index: 999;
             position: relative;
-            z-index: 10;
+            transition: transform 0.8s ease, opacity 0.5s;
         }
 
-        .envelope-wrapper.opened {
-            transform: rotateX(180deg) scale(0.9);
+        #envelope.opened {
+            transform: translateY(-100vh) rotate(10deg);
             opacity: 0;
-            pointer-events: none;
         }
 
-        /* Brasão Exagerado no Envelope */
-        .brasa-envelope {
-            width: 120px;
-            height: 120px;
-            border: 4px solid var(--gold-secondary);
+        .gold-seal {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #e7d19a;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 30px;
-            box-shadow: 0 0 30px var(--gold-dark);
-            position: relative;
-            animation: pulse-gold 2s infinite;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.5rem;
+            color: #e7d19a;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px #8c6212;
         }
 
-        .brasa-envelope::after {
-            content: "GF";
-            font-family: var(--font-cinzel);
-            font-size: 3rem;
-            color: var(--gold-secondary);
-            text-shadow: 0 0 10px var(--gold-primary);
-        }
-
-        .click-text {
-            font-family: var(--font-cinzel);
-            color: var(--gold-secondary);
-            letter-spacing: 3px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        /* --- O CONVITE INTERNO (Fase 2: Aberto) --- */
-        .invite-content {
+        /* O CONVITE (ESCONDIDO ATÉ O CLIQUE) */
+        #invite {
             position: absolute;
-            width: 100%;
-            max-width: 500px;
-            height: 90vh;
-            background-color: var(--bg-dark);
-            background-image: 
-                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
-                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNiZjl0MzAiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTIwIDIwaDIwdjIwSDIWMjB6TTAgMjBoMjB2MjBIMFYyMHoyMCAwaDIwdjIwSDIwVjB6Ii8+PC9nPjwvZz48L3N2Zz4='); /* Textura sutil */
-            border: 10px solid;
-            border-image: linear-gradient(to bottom right, var(--gold-dark), var(--gold-secondary), var(--gold-dark)) 1;
-            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            padding: 40px 20px;
+            background: #000;
+            border: 5px double #bf9b30;
             text-align: center;
             opacity: 0;
-            transform: scale(0.5) translateZ(-1000px);
-            transition: var(--transition-epic);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow-y: auto; /* Permite scroll interno se o texto for muito grande em celular pequeno */
-            z-index: 5;
+            transform: scale(0.8);
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .invite-content.show {
+        #invite.show {
             opacity: 1;
-            transform: scale(1) translateZ(0px);
-            overflow-y: auto;
+            transform: scale(1);
         }
 
-        /* --- TIPOGRAFIA DO CONVITE --- */
-        .save-the-date {
-            font-family: var(--font-cinzel);
-            color: var(--gold-secondary);
-            font-size: 1.1rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: #bf9b30;
+            margin: 0;
+            text-shadow: 0 0 15px rgba(191,155,48,0.7);
         }
 
-        .names {
-            font-family: var(--font-vibes);
-            font-size: 4rem; /* Gigante no celular */
-            background: linear-gradient(to bottom, var(--gold-secondary) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(191, 155, 48, 0.8));
-            margin: 10px 0;
-            line-height: 1;
-        }
-        
-        .ampersand {
-            font-family: var(--font-cinzel);
-            font-size: 2rem;
-            -webkit-text-fill-color: var(--text-light); /* Respiro branco */
-            display: block;
-            margin: -10px 0;
-        }
-
-        .details-text {
-            font-weight: 300;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin: 20px 0;
-            color: #e0e0e0;
-        }
-
-        .highlight-gold {
-            color: var(--gold-secondary);
-            font-weight: 600;
-        }
-
-        /* --- CONTAGEM REGRESSIVA (EXAGERADA) --- */
-        .countdown-container {
-            margin: 20px 0;
-            border-top: 1px solid var(--gold-dark);
-            border-bottom: 1px solid var(--gold-dark);
-            padding: 15px 0;
-        }
-
-        .countdown-timer {
+        .countdown {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
+            margin: 20px 0;
+            font-family: 'Cinzel Decorative', serif;
         }
 
-        .time-box {
-            background: linear-gradient(145deg, #1a1a1a, #000000);
-            border: 1px solid var(--gold-primary);
+        .time-part {
+            border: 1px solid #bf9b30;
             padding: 10px;
-            min-width: 70px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(191, 155, 48, 0.2);
+            min-width: 60px;
         }
 
-        .time-number {
-            font-family: var(--font-cinzel);
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--gold-secondary);
-            display: block;
-            text-shadow: 0 0 10px var(--gold-primary);
-        }
-
-        .time-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-light);
-            opacity: 0.8;
-        }
-
-        /* --- BOTÃO DE CONFIRMAÇÃO (RSVP) --- */
-        .rsvp-button {
-            background: linear-gradient(to right, var(--gold-dark), var(--gold-primary), var(--gold-dark));
-            color: #000;
-            font-family: var(--font-cinzel);
-            font-weight: 900;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            border: none;
-            padding: 18px;
-            width: 100%;
-            cursor: pointer;
-            border-radius: 4px;
-            letter-spacing: 3px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(140, 98, 18, 0.4);
-        }
-
-        .rsvp-button:active {
-            transform: scale(0.95);
-        }
-
-        /* Efeito de Brilho Correndo no Botão */
-        .rsvp-button::after {
-            content: '';
+        /* BRILHOS DA EXPLOSÃO */
+        .spark {
             position: absolute;
-            top: -50%; align-content: start; left: -50%;
-            width: 200%; height: 200%;
-            background: linear-gradient(rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-            transform: rotate(45deg);
-            animation: shine-button 3s infinite;
+            width: 6px;
+            height: 6px;
+            background: gold;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body onclick="explode(event)">
+
+    <div id="envelope" onclick="openMe()">
+        <div class="gold-seal">GF</div>
+        <p style="letter-spacing: 5px; color: #bf9b30;">TOQUE PARA ABRIR</p>
+    </div>
+
+    <div id="invite">
+        <p style="letter-spacing: 3px; font-size: 0.8rem;">SAVE THE DATE</p>
+        <h1>Geovana & Felipe</h1>
+        <p>Igreja Nossa Senhora das Dores</p>
+        
+        <div class="countdown">
+            <div class="time-part"><div id="d">00</div><small>Dias</small></div>
+            <div class="time-part"><div id="h">00</div><small>Hrs</small></div>
+            <div class="time-part"><div id="m">00</div><small>Min</small></div>
+        </div>
+        
+        <button style="background: #bf9b30; border: none; padding: 15px 30px; font-weight: bold; width: 100%; cursor: pointer;">CONFIRMAR PRESENÇA</button>
+    </div>
+
+    <script>
+        function openMe() {
+            document.getElementById('envelope').classList.add('opened');
+            setTimeout(() => {
+                document.getElementById('invite').classList.add('show');
+            }, 600);
         }
 
-        /* --- ANIMAÇÕES --- */
-        @keyframes pulse-gold {
-            0
+        // Explosão de brilhos
+        function explode(e) {
+            for (let i = 0; i < 30; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                document.body.appendChild(spark);
+                
+                const x = e.clientX;
+                const y = e.clientY;
+                const destX = x + (Math.random() - 0.5) * 400;
+                const destY = y + (Math.random() - 0.5) * 400;
+                
+                spark.style.left = x + 'px';
+                spark.style.top = y + 'px';
+                
+                spark.animate([
+                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                    { transform: `translate(${destX - x}px, ${destY - y}px) scale(0)`, opacity: 0 }
+                ], {
+                    duration: 1000,
+                    easing: 'ease-out'
+                }).onfinish = () => spark.remove();
+            }
+        }
+
+        // Contagem Regressiva 01/01/2026
+        setInterval(() => {
+            const diff = new Date("2026-01-01") - new Date();
+            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('h').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            document.getElementById('m').innerText = Math.floor((diff / 1000 / 60) % 60);
+        }, 1000);
+    </script>
+</body>
+</html>
