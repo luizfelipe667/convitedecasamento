@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Doutorinha</title>
+    <title>Experiência Cinematográfica</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        /* RESET RADICAL - Impede zoom e scroll que travam o clique */
+        /* RESET TOTAL PARA MOBILE - Impede zoom e scroll que travam o clique */
         * { 
             margin: 0; padding: 0; box-sizing: border-box; 
             touch-action: none; -webkit-tap-highlight-color: transparent; 
@@ -13,90 +16,155 @@
         
         body, html { 
             width: 100%; height: 100%; 
-            background: #ffffff; 
+            background: #000000; /* Fundo Preto Absoluto */
+            overflow: hidden; 
+            font-family: 'Cinzel', serif;
             display: flex; justify-content: center; align-items: center;
-            font-family: 'Georgia', serif; overflow: hidden;
         }
 
-        /* O GATILHO: Um botão real que ocupa a tela toda */
-        #gatilho {
+        /* --- CENA 1: A CORTINA (TELA INICIAL) --- */
+        #cena-abertura {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: transparent;
-            border: none;
-            z-index: 999;
-            cursor: pointer;
+            inset: 0;
+            background: #0a0a0a; /* Preto Leve */
+            z-index: 1000;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
+            /* Animação de entrada suave */
+            animation: fadeIn 1s ease-out;
         }
 
-        #texto-guia {
-            color: #d4af37;
-            letter-spacing: 4px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            animation: piscar 1.5s infinite;
-        }
-
-        @keyframes piscar { 50% { opacity: 0.3; } }
-
-        /* A FRASE FINAL */
-        #mensagem {
-            display: none;
+        /* Moldura Dourada Vibrante */
+        .moldura {
+            border: 2px solid #d4af37;
+            padding: 40px;
             text-align: center;
-            padding: 20px;
-            z-index: 10;
+            position: relative;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            transition: all 0.5s ease;
         }
 
-        h1 {
-            font-size: 2.2rem;
-            color: #1a1a1a;
-            font-style: italic;
-            font-weight: normal;
-            border-bottom: 1px solid #d4af37;
-            padding-bottom: 15px;
+        /* O Texto de Gatilho */
+        .gatilho-texto {
+            color: #d4af37;
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            animation: pulsarDourado 2s infinite;
         }
 
-        /* Partícula Luxuosa */
-        .p { position: fixed; width: 4px; height: 4px; background: #d4af37; border-radius: 50%; pointer-events: none; }
+        /* --- CENA 2: O TÍTULO (A SUA FRASE) --- */
+        #cena-titulo {
+            opacity: 0;
+            transform: scale(0.8) translateZ(-100px); /* Efeito 3D inicial */
+            text-align: center;
+            z-index: 500;
+            perspective: 1000px;
+            transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1); /* Transição suave e longa */
+        }
+
+        .frase-final {
+            font-size: 2.8rem; /* Gigante no celular */
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px #d4af37;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        /* --- ANIMAÇÕES --- */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @keyframes pulsarDourado {
+            0% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+            50% { transform: scale(1.02); opacity: 1; box-shadow: 0 0 30px rgba(212, 175, 55, 0.5); }
+            100% { transform: scale(1); opacity: 0.6; box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        }
+
+        /* ESTADO QUANDO A CORTINA ABRE (SAI DA TELA) */
+        .abrir-cortina {
+            transform: translateY(-130%) rotateX(-30deg) !important;
+            opacity: 0 !important;
+            pointer-events: none; /* Garante que o clique não pegue mais nela */
+        }
+
+        /* ESTADO QUANDO O TÍTULO APARECE (ENTRA NA TELA) */
+        .revelar-titulo {
+            opacity: 1 !important;
+            transform: scale(1) translateZ(0) !important;
+        }
+
+        /* Partícula Luxuosa de Explosão */
+        .particula {
+            position: fixed;
+            width: 5px; height: 5px;
+            background: #d4af37;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2000;
+        }
     </style>
 </head>
-<body>
+<body onclick="iniciarFilme(event)" ontouchstart="iniciarFilme(event)">
 
-    <button id="gatilho" onclick="revelar()">
-        <span id="texto-guia">Tocar no ecrã</span>
-    </button>
-
-    <div id="mensagem">
-        <h1>"E ai, doutorinha. Gostou?"</h1>
+    <div id="cena-abertura">
+        <div class="moldura">
+            <h2 class="gatilho-texto">ESTREIA ESPECIAL</h2>
+            <p style="color: white; font-size: 0.8rem; letter-spacing: 3px; margin-top: 10px;">TOQUE PARA INICIAR</p>
+        </div>
     </div>
 
+    <main id="cena-titulo">
+        <h1 class="frase-final">"E ai, doutorinha. Gostou?"</h1>
+        <div style="width: 60px; height: 2px; background: #d4af37; margin: 30px auto 0; box-shadow: 0 0 10px #d4af37;"></div>
+    </main>
+
     <script>
-        function revelar() {
-            // Esconde o botão e mostra a frase instantaneamente
-            document.getElementById('gatilho').style.display = 'none';
-            document.getElementById('mensagem').style.display = 'block';
+        let filmeIniciado = false;
 
-            // Muda o fundo para um tom perolado
-            document.body.style.background = '#fdfcf0';
+        function iniciarFilme(e) {
+            // Se já iniciou, não faz nada
+            if (filmeIniciado) return;
+            filmeIniciado = true;
 
-            // Cria um efeito de brilho central
-            for(let i=0; i<30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'p';
-                particle.style.left = '50%';
-                particle.style.top = '50%';
-                document.body.appendChild(particle);
+            // Transição Cinematográfica: Cortina sobe e Título entra
+            document.getElementById('cena-abertura').classList.add('abrir-cortina');
+            
+            // Dá um pequeno delay para o título entrar "atrás" da cortina
+            setTimeout(() => {
+                document.getElementById('cena-titulo').classList.add('revelar-titulo');
+            }, 300);
 
-                const x = (Math.random() - 0.5) * 400;
-                const y = (Math.random() - 0.5) * 400;
-
-                particle.animate([
-                    { transform: 'translate(0,0) scale(1)', opacity: 1 },
-                    { transform: `translate(${x}px, ${y}px) scale(0)`, opacity: 0 }
-                ], { duration: 1200, easing: 'ease-out' }).onfinish = () => particle.remove();
+            // Explosão de Partículas Douradas (Garante feedback visual imediato)
+            const x = e.clientX || (e.touches && e.touches[0].clientX);
+            const y = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            for(let i=0; i<40; i++) {
+                criarParticula(x, y);
             }
+        }
+
+        function criarParticula(x, y) {
+            const p = document.createElement('div');
+            p.className = 'particula';
+            p.style.left = x + 'px';
+            p.style.top = y + 'px';
+            document.body.appendChild(p);
+
+            // Direção e força aleatória para a explosão
+            const dx = (Math.random() - 0.5) * 600;
+            const dy = (Math.random() - 0.5) * 800;
+
+            // Animação CSS via JS para performance
+            p.animate([
+                { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+                { transform: `translate(${dx}px, ${dy}px) scale(0) rotate(720deg)`, opacity: 0 }
+            ], {
+                duration: 1000 + Math.random() * 1000,
+                easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)'
+            }).onfinish = () => p.remove();
         }
     </script>
 </body>
