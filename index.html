@@ -3,68 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Convite de Casamento - Geovana & Felipe</title>
+<title>Geovana & Felipe</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#fdfbfb,#ebedee);
-font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#f5f2ee,#e8dfd8);
+font-family:'Montserrat',sans-serif;
 overflow:hidden;
 }
 
-/* CONTAINER */
-.container{
-position:relative;
+/* PETALAS */
+.petal{
+position:absolute;
+width:12px;
+height:18px;
+background:radial-gradient(circle at 30% 30%, #ff9aa2, #e75480);
+border-radius:50% 50% 50% 50%;
+opacity:0.8;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh) rotate(0deg);}
+100%{transform:translateY(110vh) rotate(360deg);}
+}
+
+/* Partículas douradas */
+.particle{
+position:absolute;
+width:6px;
+height:6px;
+background:gold;
+border-radius:50%;
+pointer-events:none;
+animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+to{
+transform:translate(var(--x),var(--y));
+opacity:0;
+}
+}
+
+/* Scene */
+.scene{
 width:100%;
 max-width:390px;
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-flex-direction:column;
-perspective:1500px;
+perspective:2000px;
 }
 
-/* ENVELOPE */
+/* Envelope */
 .envelope{
 position:relative;
-width:320px;
-height:210px;
-background:white;
-border-radius:10px;
-box-shadow:0 15px 35px rgba(0,0,0,0.25);
-cursor:pointer;
+width:340px;
+height:230px;
 transform-style:preserve-3d;
-transition:transform 1s ease;
+cursor:pointer;
 }
 
-/* FLAP */
-.flap{
+.base{
 position:absolute;
-top:0;
-left:0;
 width:100%;
 height:100%;
 background:white;
-clip-path:polygon(0 0,100% 0,50% 60%);
-transform-origin:top;
-transition:transform 1.2s cubic-bezier(.68,-0.55,.27,1.55);
-box-shadow:0 8px 15px rgba(0,0,0,0.1);
+border-radius:14px;
+box-shadow:0 25px 60px rgba(0,0,0,0.3);
 }
 
-/* CARTA */
+.flap{
+position:absolute;
+width:100%;
+height:100%;
+background:white;
+clip-path:polygon(0 0,100% 0,50% 65%);
+transform-origin:top;
+transition:transform 1.3s cubic-bezier(.68,-0.4,.2,1.6);
+border-radius:14px;
+}
+
+/* Lacre */
+.seal{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:60px;
+height:60px;
+background:radial-gradient(circle,#c9a227,#b08d57);
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+font-family:'Cormorant Garamond',serif;
+font-size:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.3);
+transition:opacity .6s ease, transform .6s ease;
+z-index:5;
+}
+
+/* Carta */
 .letter{
 position:absolute;
 bottom:0;
@@ -73,118 +124,161 @@ transform:translateX(-50%) translateY(100%);
 width:92%;
 height:88%;
 background:white;
-border-radius:10px;
-padding:25px 20px;
+border-radius:14px;
+padding:30px 25px;
 text-align:center;
-box-shadow:0 15px 30px rgba(0,0,0,0.2);
-transition:transform 1.2s ease 0.6s;
+box-shadow:0 30px 50px rgba(0,0,0,0.25);
+transition:transform 1.3s ease 0.8s, opacity 1s ease 0.8s;
+opacity:0;
 overflow-y:auto;
 }
 
-/* TEXTO */
 .names{
-font-family:'Playfair Display',serif;
-color:#b76e79;
-font-size:24px;
+font-family:'Cormorant Garamond',serif;
+font-size:32px;
+color:#b08d57;
 margin-bottom:10px;
 }
 
-h2{
-font-family:'Playfair Display',serif;
-color:#444;
+.subtitle{
+font-family:'Cormorant Garamond',serif;
 font-size:18px;
 margin-bottom:15px;
 }
 
 p{
-color:#555;
 font-size:14px;
-margin-bottom:12px;
 line-height:1.6;
+margin-bottom:15px;
 }
 
-.highlight{
-color:#b76e79;
+.date{
+color:#b08d57;
+font-weight:600;
+margin-bottom:5px;
+}
+
+.location{
 font-weight:500;
+margin-bottom:15px;
 }
 
 .countdown{
-margin-top:18px;
-font-size:14px;
-color:#000;
-font-weight:500;
+font-size:13px;
+margin-bottom:20px;
 }
 
-/* OPEN EFFECT */
-.open .flap{
-transform:rotateX(-180deg);
+/* Botão */
+.map-btn{
+display:inline-block;
+padding:10px 20px;
+border-radius:30px;
+background:linear-gradient(45deg,#b08d57,#c9a227);
+color:white;
+text-decoration:none;
+font-size:13px;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+transition:.3s;
 }
 
+.map-btn:active{
+transform:scale(.95);
+}
+
+/* OPEN */
+.open .flap{transform:rotateX(-180deg);}
 .open .letter{
-transform:translateX(-50%) translateY(-8%);
+transform:translateX(-50%) translateY(-15%);
+opacity:1;
+}
+.open .seal{
+opacity:0;
+transform:translate(-50%,-50%) scale(0);
 }
 
-/* RESPONSIVO */
-@media(max-height:700px){
-.letter{
-height:82%;
-}
-}
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="scene">
 <div class="envelope" id="envelope">
+
+<div class="base"></div>
 <div class="flap"></div>
+
+<div class="seal">G&F</div>
 
 <div class="letter">
 <div class="names">Geovana Lima<br>&<br>Felipe</div>
+<div class="subtitle">Convidam você para celebrar o amor</div>
 
-<h2>Você está convidado!</h2>
+<p>Sua presença tornará nosso dia ainda mais especial.</p>
 
-<p>
-Com o coração cheio de amor e alegria,
-convidamos você para celebrar conosco
-o início da nossa nova jornada.
-</p>
-
-<p class="highlight">01 de Janeiro de 2026</p>
-
-<p>Igreja Nossa Senhora da Glória</p>
+<div class="date">01 de Janeiro de 2026</div>
+<div class="location">Igreja Nossa Senhora da Glória</div>
 
 <div class="countdown" id="countdown"></div>
+
+<a class="map-btn" target="_blank"
+href="https://www.google.com/maps/search/?api=1&query=Igreja+Nossa+Senhora+da+Glória">
+Ver Localização</a>
 
 </div>
 </div>
 </div>
 
 <script>
-const envelope = document.getElementById("envelope");
+const envelope=document.getElementById("envelope");
+
 envelope.addEventListener("click",()=>{
+if(!envelope.classList.contains("open")){
+explodeParticles();
+}
 envelope.classList.toggle("open");
 });
 
-/* COUNTDOWN */
+/* Partículas */
+function explodeParticles(){
+for(let i=0;i<25;i++){
+const particle=document.createElement("div");
+particle.className="particle";
+particle.style.left="50%";
+particle.style.top="50%";
+particle.style.setProperty('--x',(Math.random()*300-150)+'px');
+particle.style.setProperty('--y',(Math.random()*300-150)+'px');
+document.body.appendChild(particle);
+setTimeout(()=>particle.remove(),1000);
+}
+}
+
+/* Pétalas contínuas */
+function createPetal(){
+const petal=document.createElement("div");
+petal.className="petal";
+petal.style.left=Math.random()*100+"vw";
+petal.style.animationDuration=(5+Math.random()*5)+"s";
+document.body.appendChild(petal);
+setTimeout(()=>petal.remove(),10000);
+}
+setInterval(createPetal,800);
+
+/* Countdown */
 function updateCountdown(){
-const weddingDate = new Date("Jan 1, 2026 00:00:00").getTime();
-const now = new Date().getTime();
-const distance = weddingDate - now;
+const date=new Date("January 1, 2026 00:00:00").getTime();
+const now=new Date().getTime();
+const diff=date-now;
 
-if(distance > 0){
-const days = Math.floor(distance / (1000*60*60*24));
-const hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
-const minutes = Math.floor((distance % (1000*60*60))/(1000*60));
-const seconds = Math.floor((distance % (1000*60))/1000);
-
-document.getElementById("countdown").innerHTML =
-"Faltam " + days + " dias, " + hours + "h " + minutes + "m " + seconds + "s para o grande dia 💍";
+if(diff>0){
+const d=Math.floor(diff/(1000*60*60*24));
+const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((diff%(1000*60*60))/(1000*60));
+const s=Math.floor((diff%(1000*60))/1000);
+document.getElementById("countdown").innerHTML=
+"Faltam "+d+" dias • "+h+"h "+m+"m "+s+"s";
 }else{
-document.getElementById("countdown").innerHTML = "Hoje é o grande dia! 💖";
+document.getElementById("countdown").innerHTML="Hoje é o grande dia ✨";
 }
 }
-
 setInterval(updateCountdown,1000);
 updateCountdown();
 </script>
