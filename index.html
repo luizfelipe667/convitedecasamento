@@ -97,4 +97,80 @@
 
     <div id="overlay-instrucao">
         <div class="alerta-cartoon" id="txt-inst">
-            SOCA
+            SOCA A TELA!<br>
+            <span style="font-size: 1rem;">(TOQUE PARA REVELAR)</span>
+        </div>
+    </div>
+
+    <main id="convite-voador">
+        <h1>GEOVANA & FELIPE</h1>
+        <div class="data">
+            GAME OVER PARA A SOLTEIRICE!<br>
+            01 . 01 . 2026<br>
+            IGREJA N. S. DAS DORES
+        </div>
+        <div id="timer" style="font-family: 'Bangers'; font-size: 1.5rem; color: #7000ff;">00:00:00</div>
+        <button onclick="window.location.reload()" style="margin-top: 15px; padding: 10px; background: #00e5ff; border: 3px solid #000; font-family: 'Bangers'; width: 100%;">JOGAR DE NOVO</button>
+    </main>
+
+    <script>
+        let toques = 0;
+        const metaToques = 5;
+
+        function explodir(e) {
+            const x = e.clientX || (e.touches && e.touches[0].clientX);
+            const y = e.clientY || (e.touches && e.touches[0].clientY);
+
+            toques++;
+
+            // Criar efeitos visuais de impacto
+            for(let i=0; i<8; i++) {
+                criarSprite(x, y);
+            }
+
+            // Lógica de revelação progressiva
+            if(toques >= metaToques) {
+                document.getElementById('txt-inst').style.display = 'none';
+                document.getElementById('convite-voador').classList.add('show-convite');
+            } else {
+                // Faz a instrução reagir a cada toque
+                document.getElementById('txt-inst').innerText = `FALTAM ${metaToques - toques} GOLPES!`;
+            }
+        }
+
+        function criarSprite(x, y) {
+            const el = document.createElement('div');
+            el.className = 'sprite';
+            const itens = ['👊', '💥', '✨', '💍', '💖', '🔥', '⚡'];
+            el.innerHTML = itens[Math.floor(Math.random() * itens.length)];
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            document.body.appendChild(el);
+
+            const angulo = Math.random() * Math.PI * 2;
+            const forca = Math.random() * 300 + 100;
+            const dx = Math.cos(angulo) * forca;
+            const dy = Math.sin(angulo) * forca;
+
+            el.animate([
+                { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: 1 },
+                { transform: `translate(${dx}px, ${dy}px) scale(0) rotate(720deg)`, opacity: 0 }
+            ], {
+                duration: 800,
+                easing: 'ease-out'
+            }).onfinish = () => el.remove();
+        }
+
+        // Timer de Casamento
+        setInterval(() => {
+            const diff = new Date("2026-01-01T19:00:00") - new Date();
+            if(diff > 0) {
+                const d = Math.floor(diff / (1000*60*60*24));
+                const h = Math.floor((diff / (1000*60*60)) % 24);
+                const m = Math.floor((diff / 1000 / 60) % 60);
+                document.getElementById('timer').innerText = `${d}D ${h}H ${m}M`;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
