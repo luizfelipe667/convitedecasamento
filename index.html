@@ -2,174 +2,135 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convite Geovana & Felipe</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A GRANDE FESTA: Geovana & Felipe</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Pacifico&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        /* CSS REFORÇADO PARA GARANTIR VISIBILIDADE */
-        body {
-            margin: 0;
-            background: #000; /* Fundo preto puro */
-            color: #fff;
-            font-family: 'serif';
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        :root {
+            --pink: #ff007f;
+            --blue: #00e5ff;
+            --yellow: #ffee00;
+            --purple: #9d00ff;
+            --orange: #ff9100;
+            --text-dark: #202020;
+            --font-cartoon: 'Bangers', cursive;
+            --font-script: 'Pacifico', cursive;
+            --font-main: 'Poppins', sans-serif;
+            --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        /* O ENVELOPE QUE DEVE APARECER PRIMEIRO */
-        #envelope {
-            width: 320px;
-            height: 450px;
-            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
-            border: 3px solid #bf9b30; /* Dourado bem visível */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 0 30px #bf9b30;
-            z-index: 999;
-            position: relative;
-            transition: transform 0.8s ease, opacity 0.5s;
+        /* --- RESET E BASE VIBRANTE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html { 
+            height: 100%; 
+            width: 100%; 
+            font-family: var(--font-main); 
+            overflow: hidden; /* Controlamos o scroll manualmente */
+            color: var(--text-dark);
+            /* Fundo Gradiente Animado */
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
 
-        #envelope.opened {
-            transform: translateY(-100vh) rotate(10deg);
-            opacity: 0;
+        /* --- ANIMAÇÕES DE FUNDO E ELEMENTOS VOADORES --- */
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        @keyframes float { 
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(100px, -1000px) rotate(360deg); opacity: 0; }
         }
 
-        .gold-seal {
-            width: 100px;
-            height: 100px;
-            border: 2px solid #e7d19a;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Cinzel Decorative', serif;
-            font-size: 2.5rem;
-            color: #e7d19a;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px #8c6212;
-        }
-
-        /* O CONVITE (ESCONDIDO ATÉ O CLIQUE) */
-        #invite {
-            position: absolute;
-            width: 90%;
-            max-width: 400px;
-            padding: 40px 20px;
-            background: #000;
-            border: 5px double #bf9b30;
-            text-align: center;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        #invite.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
-            color: #bf9b30;
-            margin: 0;
-            text-shadow: 0 0 15px rgba(191,155,48,0.7);
-        }
-
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            font-family: 'Cinzel Decorative', serif;
-        }
-
-        .time-part {
-            border: 1px solid #bf9b30;
-            padding: 10px;
-            min-width: 60px;
-        }
-
-        /* BRILHOS DA EXPLOSÃO */
-        .spark {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: gold;
-            border-radius: 50%;
+        /* Classe para Elementos Voadores (Confetes, Estrelas, etc.) */
+        .floating-element {
+            position: fixed;
             pointer-events: none;
-            z-index: 1000;
-        }
-    </style>
-</head>
-<body onclick="explode(event)">
-
-    <div id="envelope" onclick="openMe()">
-        <div class="gold-seal">GF</div>
-        <p style="letter-spacing: 5px; color: #bf9b30;">TOQUE PARA ABRIR</p>
-    </div>
-
-    <div id="invite">
-        <p style="letter-spacing: 3px; font-size: 0.8rem;">SAVE THE DATE</p>
-        <h1>Geovana & Felipe</h1>
-        <p>Igreja Nossa Senhora das Dores</p>
-        
-        <div class="countdown">
-            <div class="time-part"><div id="d">00</div><small>Dias</small></div>
-            <div class="time-part"><div id="h">00</div><small>Hrs</small></div>
-            <div class="time-part"><div id="m">00</div><small>Min</small></div>
-        </div>
-        
-        <button style="background: #bf9b30; border: none; padding: 15px 30px; font-weight: bold; width: 100%; cursor: pointer;">CONFIRMAR PRESENÇA</button>
-    </div>
-
-    <script>
-        function openMe() {
-            document.getElementById('envelope').classList.add('opened');
-            setTimeout(() => {
-                document.getElementById('invite').classList.add('show');
-            }, 600);
+            z-index: 1;
+            animation: float 10s linear infinite;
         }
 
-        // Explosão de brilhos
-        function explode(e) {
-            for (let i = 0; i < 30; i++) {
-                const spark = document.createElement('div');
-                spark.className = 'spark';
-                document.body.appendChild(spark);
-                
-                const x = e.clientX;
-                const y = e.clientY;
-                const destX = x + (Math.random() - 0.5) * 400;
-                const destY = y + (Math.random() - 0.5) * 400;
-                
-                spark.style.left = x + 'px';
-                spark.style.top = y + 'px';
-                
-                spark.animate([
-                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
-                    { transform: `translate(${destX - x}px, ${destY - y}px) scale(0)`, opacity: 0 }
-                ], {
-                    duration: 1000,
-                    easing: 'ease-out'
-                }).onfinish = () => spark.remove();
-            }
+        /* --- CONTAINER PRINCIPAL (ESTILO CARTOON) --- */
+        .main-stage {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
         }
 
-        // Contagem Regressiva 01/01/2026
-        setInterval(() => {
-            const diff = new Date("2026-01-01") - new Date();
-            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById('h').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            document.getElementById('m').innerText = Math.floor((diff / 1000 / 60) % 60);
-        }, 1000);
-    </script>
-</body>
-</html>
+        /* --- FASE 1: INSTRUÇÕES E O PRIMEIRO CLIQUE (CAIXA DE SOM BOMBANDO) --- */
+        .interaction-box {
+            width: 100%;
+            max-width: 350px;
+            background: #fff;
+            border: 10px solid var(--text-dark);
+            border-radius: 20px;
+            box-shadow: 15px 15px 0 var(--purple);
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            position: relative;
+            animation: pulseBox 1.5s infinite;
+        }
+
+        .interaction-box:active { transform: scale(0.9) rotate(-3deg); box-shadow: 5px 5px 0 var(--purple); }
+
+        @keyframes pulseBox { 
+            0% { transform: scale(1); box-shadow: 15px 15px 0 var(--purple); }
+            50% { transform: scale(1.05); box-shadow: 20px 20px 0 var(--purple); }
+            100% { transform: scale(1); box-shadow: 15px 15px 0 var(--purple); }
+        }
+
+        .instruction-title {
+            font-family: var(--font-cartoon);
+            font-size: 2.5rem;
+            color: var(--pink);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            -webkit-text-stroke: 1px var(--text-dark);
+            text-shadow: 4px 4px 0 var(--yellow);
+            margin-bottom: 15px;
+        }
+
+        .instruction-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .finger-icon { font-size: 3rem; animation: pointFinger 1s infinite; display: inline-block; }
+        @keyframes pointFinger { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+        /* --- O CONVITE (ESCONDIDO) --- */
+        .invite-content {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .invite-content.show { display: flex; opacity: 1; }
+
+        .cartoon-card {
+            width: 100%;
+            max-width: 450px;
+            height: 90vh;
+            background: #fff;
+            border: 10px solid
