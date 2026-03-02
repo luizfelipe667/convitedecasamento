@@ -3,150 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Surpresa para a Doutorinha</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <title>Convite de Luxo | Geovana & Felipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --gold: #d4af37;
+            --dark: #0a0a0a;
+            --silk: #fdfcf0;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
+
         body {
-            background: #7000ff; /* Roxo Vibrante */
+            background-color: var(--dark);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            perspective: 1000px;
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Playfair Display', serif;
         }
 
-        /* CONTAINER DO ENVELOPE */
-        #envelope-container {
-            position: relative;
+        /* --- ENVELOPE DE LUXO --- */
+        #envelope-luxo {
             width: 320px;
             height: 220px;
-            background: #ffee00; /* Amarelo Cartoon */
-            border: 8px solid #000;
-            box-shadow: 15px 15px 0 #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: #1a1a1a;
+            border: 1px solid var(--gold);
+            position: relative;
             cursor: pointer;
+            transition: transform 0.8s;
             z-index: 10;
-            transition: all 0.3s;
-        }
-
-        /* TEXTO EM CIMA DO ENVELOPE */
-        #envelope-container::after {
-            content: 'TOQUE PARA ABRIR ✉️';
-            font-family: 'Bangers', cursive;
-            font-size: 1.5rem;
-            color: #000;
-        }
-
-        /* PAPEL QUE FICA ESCONDIDO DENTRO */
-        #papel-surpresa {
-            position: absolute;
-            width: 280px;
-            height: 180px;
-            background: #fff;
-            border: 5px solid #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            text-align: center;
-            transform: scale(0);
-            opacity: 0;
-            z-index: 5;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.8);
         }
 
-        .frase-doutorinha {
-            font-family: 'Permanent Marker', cursive;
-            font-size: 2rem;
-            color: #ff007f; /* Rosa Choque */
-            line-height: 1.2;
-        }
-
-        /* ANIMAÇÃO DE RASGAR */
-        .rasgado {
-            animation: explodeEnvelope 0.6s forwards;
-            pointer-events: none;
-        }
-
-        @keyframes explodeEnvelope {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2) rotate(5deg); border-style: dashed; }
-            100% { transform: scale(0) rotate(-20deg); opacity: 0; }
-        }
-
-        .mostrar-papel {
-            transform: scale(1.2) !important;
-            opacity: 1 !important;
-            z-index: 100 !important;
-            box-shadow: 10px 10px 0 #ffee00;
-        }
-
-        /* EFEITOS DE BRILHO AO CLICAR */
-        .confete {
-            position: fixed;
-            font-size: 2rem;
-            pointer-events: none;
-            z-index: 200;
-        }
-    </style>
-</head>
-<body onclick="abrirEnvelope(event)">
-
-    <div id="envelope-container"></div>
-
-    <div id="papel-surpresa">
-        <h1 class="frase-doutorinha">E aí, doutorinha, gostou?</h1>
-    </div>
-
-    <script>
-        function abrirEnvelope(e) {
-            const envelope = document.getElementById('envelope-container');
-            const papel = document.getElementById('papel-surpresa');
-
-            // Só executa se o envelope ainda existir
-            if (!envelope.classList.contains('rasgado')) {
-                envelope.classList.add('rasgado');
-                
-                // Delay para o papel aparecer após o envelope "sumir"
-                setTimeout(() => {
-                    papel.classList.add('mostrar-papel');
-                    document.body.style.background = '#00e5ff'; // Muda fundo para azul neon
-                }, 400);
-
-                // Explosão de brilhos no local do clique
-                const x = e.clientX || e.touches[0].clientX;
-                const y = e.clientY || e.touches[0].clientY;
-                for(let i=0; i<15; i++) {
-                    criarConfete(x, y);
-                }
-            }
-        }
-
-        function criarConfete(x, y) {
-            const el = document.createElement('div');
-            el.className = 'confete';
-            const itens = ['✨', '💖', '🎓', '💎', '🌸', '⚡'];
-            el.innerHTML = itens[Math.floor(Math.random() * itens.length)];
-            el.style.left = x + 'px';
-            el.style.top = y + 'px';
-            document.body.appendChild(el);
-
-            const dx = (Math.random() - 0.5) * 500;
-            const dy = (Math.random() - 0.5) * 500;
-
-            el.animate([
-                { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
-                { transform: `translate(${dx}px, ${dy}px) scale(0) rotate(360deg)`, opacity: 0 }
-            ], {
-                duration: 1000,
-                easing: 'ease-out'
-            }).onfinish = () => el.remove();
-        }
-    </script>
-</body>
-</html>
+        /* Selo de Cera Dourado */
+        .selo {
+            width: 60px;
+            height: 60px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family
