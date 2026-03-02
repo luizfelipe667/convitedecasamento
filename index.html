@@ -3,109 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Surpresa</title>
+    <title>Doutorinha</title>
     <style>
-        /* RESET ABSOLUTO */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* RESET RADICAL - Impede zoom e scroll que travam o clique */
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            touch-action: none; -webkit-tap-highlight-color: transparent; 
+        }
         
         body, html { 
             width: 100%; height: 100%; 
             background: #ffffff; 
-            overflow: hidden; 
-            font-family: 'Georgia', serif; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Georgia', serif; overflow: hidden;
         }
 
-        /* O CONTAINER QUE RECEBE O CLIQUE EM QUALQUER LUGAR */
-        #click-area {
+        /* O GATILHO: Um botão real que ocupa a tela toda */
+        #gatilho {
             position: fixed;
-            inset: 0;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent;
+            border: none;
+            z-index: 999;
+            cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            cursor: pointer;
         }
 
-        /* TEXTO DE INSTRUÇÃO DISCRETO */
-        #instrucao {
+        #texto-guia {
             color: #d4af37;
-            letter-spacing: 5px;
-            font-size: 0.9rem;
+            letter-spacing: 4px;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            transition: opacity 0.4s;
+            animation: piscar 1.5s infinite;
         }
 
-        /* A FRASE QUE SURGE NO CENTRO */
-        #resultado {
-            opacity: 0;
-            transform: scale(0.8);
+        @keyframes piscar { 50% { opacity: 0.3; } }
+
+        /* A FRASE FINAL */
+        #mensagem {
+            display: none;
             text-align: center;
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
+            padding: 20px;
+            z-index: 10;
         }
 
         h1 {
             font-size: 2.2rem;
             color: #1a1a1a;
             font-style: italic;
-            font-weight: 400;
+            font-weight: normal;
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 15px;
         }
 
-        /* BRILHOS LUXUOSOS */
-        .sparkle {
-            position: fixed;
-            width: 4px;
-            height: 4px;
-            background: #d4af37;
-            border-radius: 50%;
-            pointer-events: none;
-        }
+        /* Partícula Luxuosa */
+        .p { position: fixed; width: 4px; height: 4px; background: #d4af37; border-radius: 50%; pointer-events: none; }
     </style>
 </head>
-<body id="corpo">
+<body>
 
-    <div id="click-area" onclick="revelarFrase(event)" ontouchstart="revelarFrase(event)">
-        <p id="instrucao">Toque para revelar</p>
-    </div>
+    <button id="gatilho" onclick="revelar()">
+        <span id="texto-guia">Tocar no ecrã</span>
+    </button>
 
-    <div id="resultado">
+    <div id="mensagem">
         <h1>"E ai, doutorinha. Gostou?"</h1>
-        <div style="width: 50px; height: 1px; background: #d4af37; margin: 25px auto 0;"></div>
     </div>
 
     <script>
-        let ativo = false;
+        function revelar() {
+            // Esconde o botão e mostra a frase instantaneamente
+            document.getElementById('gatilho').style.display = 'none';
+            document.getElementById('mensagem').style.display = 'block';
 
-        function revelarFrase(e) {
-            if (ativo) return;
-            ativo = true;
+            // Muda o fundo para um tom perolado
+            document.body.style.background = '#fdfcf0';
 
-            // Esconde a instrução e mostra a frase
-            document.getElementById('instrucao').style.opacity = '0';
-            const res = document.getElementById('resultado');
-            res.style.opacity = '1';
-            res.style.transform = 'scale(1)';
-
-            // Pega a posição do toque
-            const x = e.clientX || (e.touches && e.touches[0].clientX);
-            const y = e.clientY || (e.touches && e.touches[0].clientY);
-
-            // Explosão de brilho onde a pessoa tocou
+            // Cria um efeito de brilho central
             for(let i=0; i<30; i++) {
-                const s = document.createElement('div');
-                s.className = 'sparkle';
-                s.style.left = x + 'px';
-                s.style.top = y + 'px';
-                document.body.appendChild(s);
+                const particle = document.createElement('div');
+                particle.className = 'p';
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+                document.body.appendChild(particle);
 
-                const moveX = (Math.random() - 0.5) * 500;
-                const moveY = (Math.random() - 0.5) * 500;
+                const x = (Math.random() - 0.5) * 400;
+                const y = (Math.random() - 0.5) * 400;
 
-                s.animate([
+                particle.animate([
                     { transform: 'translate(0,0) scale(1)', opacity: 1 },
-                    { transform: `translate(${moveX}px, ${moveY}px) scale(0)`, opacity: 0 }
-                ], {
-                    duration: 1000 + Math.random() * 1
+                    { transform: `translate(${x}px, ${y}px) scale(0)`, opacity: 0 }
+                ], { duration: 1200, easing: 'ease-out' }).onfinish = () => particle.remove();
+            }
+        }
+    </script>
+</body>
+</html>
