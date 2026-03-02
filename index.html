@@ -1,45 +1,48 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GEOVANA & FELIPE 2026</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Luckiest+Guy&display=swap" rel="stylesheet">
+
     <style>
-        /* RESET TOTAL PARA NÃO TRAVAR NO MOBILE */
+        /* RESET TOTAL - GARANTE QUE NADA FIQUE ESCURO */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body, html { 
-            width: 100%; height: 100%; 
-            background: #000; 
+            width: 100%; 
+            height: 100%; 
+            background: #ff007f; /* FUNDO ROSA CHOQUE IMEDIATO */
             overflow: hidden; 
             font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* CAMADA DE ABERTURA (A QUE VOCÊ VÊ PRIMEIRO) */
-        #topo {
+        /* TELA DE ENTRADA (O BOTÃO EXPLOSIVO) */
+        #camada-click {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #ff007f; /* Rosa Choque */
-            z-index: 9999; /* No topo de tudo */
+            inset: 0;
+            background: #ff007f;
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border: 15px solid #ffee00;
             cursor: pointer;
-            transition: transform 0.8s cubic-bezier(0.9, 0, 0.1, 1);
+            border: 20px solid #ffee00;
         }
 
-        /* ANIMAÇÃO DO BOTÃO CENTRAL */
-        .botao-animado {
+        .caixa-uau {
             background: #fff;
-            border: 8px solid #000;
-            padding: 20px;
+            border: 10px solid #000;
+            padding: 30px;
+            box-shadow: 20px 20px 0 #00e5ff;
             transform: rotate(-5deg);
-            box-shadow: 15px 15px 0 #00e5ff;
-            animation: balanco 0.5s infinite alternate;
-            pointer-events: none; /* O clique passa para o pai */
+            animation: balanco 0.4s infinite alternate;
         }
 
         @keyframes balanco {
@@ -47,64 +50,115 @@
             to { transform: rotate(5deg) scale(1.1); }
         }
 
-        .texto-click {
+        .texto-gigante {
             font-family: 'Bangers', cursive;
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: #ff007f;
+            line-height: 1;
             text-align: center;
         }
 
-        /* CONVITE (ESCONDIDO ATRÁS) */
-        #convite {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #7000ff, #ff007f);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            padding: 20px;
-        }
-
-        .card {
+        /* O CONVITE (SÓ APARECE DEPOIS DO CLICK) */
+        #conteudo-convite {
+            display: none; /* Escondido via display para não interferir nos cliques */
+            width: 90%;
+            max-width: 400px;
             background: #fff;
             border: 10px solid #000;
             padding: 30px;
             text-align: center;
             box-shadow: 20px 20px 0 #ffee00;
-            max-width: 400px;
-            width: 100%;
+            z-index: 500;
+            position: relative;
         }
 
         h1 {
             font-family: 'Luckiest Guy', cursive;
             font-size: 3rem;
             color: #ff007f;
-            -webkit-text-stroke: 2px #000;
-            margin-bottom: 20px;
+            -webkit-text-stroke: 1.5px #000;
+            margin-bottom: 15px;
         }
 
-        /* ELEMENTOS VOADORES (EXPLOSÃO) */
-        .boneco {
-            position: fixed;
-            font-size: 4rem;
-            pointer-events: none;
-            z-index: 10000;
+        .igreja {
+            background: #000;
+            color: #00e5ff;
+            font-family: 'Bangers', cursive;
+            padding: 10px;
+            font-size: 1.5rem;
+            margin: 15px 0;
         }
 
-        /* TIMER */
+        /* CONTAGEM REGRESSIVA */
         .timer {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-top: 20px;
-            font-family: 'Bangers', cursive;
         }
-        .unidade { background: #00e5ff; padding: 10px; border: 3px solid #000; min-width: 60px; }
+        .box-tempo {
+            background: #ffee00;
+            border: 3px solid #000;
+            padding: 10px;
+            font-family: 'Bangers', cursive;
+            min-width: 65px;
+        }
 
-        /* ESTADO ABERTO */
-        .sumir { transform: translateY(-120%) !important; }
+        /* BRILHOS E DESENHOS VOADORES */
+        .explosao {
+            position: fixed;
+            font-size: 4rem;
+            pointer-events: none;
+            z-index: 2000;
+        }
+
+        /* ANIMAÇÃO DE SAÍDA */
+        .vazar {
+            transform: translateY(-150%) rotate(45deg);
+            transition: 1s ease-in;
+        }
     </style>
 </head>
-<body id="corpo">
-    
+<body onclick="interagir(event)" ontouchstart="interagir(event)">
+
+    <div id="camada-click">
+        <div class="caixa-uau">
+            <h2 class="texto-gigante">TOQUE PARA<br>VER A MÁGICA!</h2>
+        </div>
+        <div style="font-size: 6rem; margin-top: 20px;">🎉</div>
+    </div>
+
+    <main id="conteudo-convite">
+        <p style="font-family: 'Bangers'; color: #7000ff; letter-spacing: 3px;">SAVE THE DATE</p>
+        <h1>GEOVANA & FELIPE</h1>
+        <p style="font-weight: 900; color: #000;">01 DE JANEIRO DE 2026</p>
+        
+        <div class="igreja">IGREJA NOSSA SENHORA DAS DORES</div>
+
+        <div class="timer">
+            <div class="box-tempo"><span id="d">00</span><br>DIAS</div>
+            <div class="box-tempo"><span id="h">00</span><br>HRS</div>
+            <div class="box-tempo"><span id="m">00</span><br>MIN</div>
+        </div>
+
+        <button onclick="confirmar()" style="margin-top: 25px; width: 100%; background: #ff007f; color: #fff; border: 4px solid #000; padding: 15px; font-family: 'Bangers'; font-size: 2rem; cursor: pointer; box-shadow: 8px 8px 0 #000;">
+            CONFIRMAR!
+        </button>
+    </main>
+
+    <script>
+        let conviteAberto = false;
+
+        function interagir(e) {
+            // Pega posição do toque/click
+            const x = e.clientX || (e.touches && e.touches[0].clientX);
+            const y = e.clientY || (e.touches && e.touches[0].clientY);
+
+            // Se for o primeiro clique, abre o convite
+            if (!conviteAberto) {
+                const camada = document.getElementById('camada-click');
+                camada.classList.add('vazar'); // Faz a tela rosa voar pra cima
+                
+                document.getElementById('conteudo-convite').style.display = 'block'; // Mostra o convite
+                document.body.style.background = '#7000ff'; // Muda o fundo para roxo
+                conviteAberto = true
