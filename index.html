@@ -3,145 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Geovana & Felipe</title>
-
+<title>Convite Geovana & Felipe</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
-height:100vh;
-overflow:hidden;
-background:radial-gradient(circle at center,#0d0d0d,#000);
-font-family:'Montserrat',sans-serif;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
+  height:100vh;
+  overflow:hidden;
+  background:radial-gradient(circle at center,#0d0d0d,#000);
+  font-family:'Montserrat',sans-serif;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  perspective:2000px;
 }
 
-/* PARTÍCULAS FUNDO */
+/* Partículas contínuas */
 .particle{
-position:absolute;
-width:2px;height:2px;
-background:gold;
-border-radius:50%;
-opacity:.5;
-animation:float linear infinite;
+  position:absolute;
+  width:2px;height:2px;
+  background:gold;
+  border-radius:50%;
+  opacity:.5;
+  animation:float linear infinite;
 }
 @keyframes float{
-0%{transform:translateY(100vh);opacity:0;}
-20%{opacity:1;}
-100%{transform:translateY(-10vh);opacity:0;}
+  0%{transform:translateY(100vh);opacity:0;}
+  20%{opacity:1;}
+  100%{transform:translateY(-10vh);opacity:0;}
 }
 
-/* TEXTO INICIAL */
+/* Texto inicial */
 .intro{
-position:absolute;
-text-align:center;
-animation:pulse 2s infinite;
-letter-spacing:2px;
-font-size:14px;
-opacity:.8;
+  position:absolute;
+  text-align:center;
+  animation:pulse 2s infinite;
+  letter-spacing:2px;
+  font-size:14px;
+  opacity:.8;
 }
 @keyframes pulse{
-0%{opacity:.3;}
-50%{opacity:1;}
-100%{opacity:.3;}
+  0%{opacity:.3;}
+  50%{opacity:1;}
+  100%{opacity:.3;}
 }
 
-/* PORTAL */
+/* Portal 3D */
 .portal{
-width:180px;height:180px;
-border-radius:50%;
-border:4px solid gold;
-box-shadow:0 0 30px gold, inset 0 0 40px rgba(212,175,55,.4);
-animation:spin 6s linear infinite;
-cursor:pointer;
-display:none;
+  width:180px;height:180px;
+  border-radius:50%;
+  border:4px solid gold;
+  box-shadow:0 0 30px gold, inset 0 0 40px rgba(212,175,55,.4);
+  animation:spin 6s linear infinite;
+  cursor:pointer;
+  display:none;
 }
 @keyframes spin{
-to{transform:rotate(360deg);}
+  to{transform:rotateY(360deg);}
 }
 
-/* ENERGIA */
+/* Cristal */
+.crystal{
+  width:150px;height:150px;
+  background:linear-gradient(135deg,#d4af37,#fff5cc,#b08d57);
+  clip-path:polygon(50% 0%, 90% 25%, 100% 70%, 50% 100%, 0% 70%, 10% 25%);
+  box-shadow:0 0 40px gold;
+  animation:floatCrystal 5s ease-in-out infinite alternate;
+  cursor:pointer;
+  display:none;
+}
+@keyframes floatCrystal{
+  0%{transform:translateY(0px) rotateY(0deg);}
+  50%{transform:translateY(-20px) rotateY(180deg);}
+  100%{transform:translateY(0px) rotateY(360deg);}
+}
+
+/* Energia */
 .energy{
-position:absolute;
-width:200px;height:200px;
-border-radius:50%;
-background:radial-gradient(circle,rgba(212,175,55,.4),transparent 70%);
-opacity:0;
-transition:.3s;
+  position:absolute;
+  width:200px;height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(212,175,55,.4),transparent 70%);
+  opacity:0;
+  transition:.3s;
 }
 
-/* FLASH */
+/* Flash */
 .flash{
-position:absolute;
-width:100%;height:100%;
-background:white;
-opacity:0;
-pointer-events:none;
+  position:absolute;
+  width:100%;height:100%;
+  background:white;
+  opacity:0;
+  pointer-events:none;
 }
 
-/* PLACA FINAL */
+/* Convite Final */
 .invite{
-position:absolute;
-width:90%;
-max-width:380px;
-padding:60px 30px;
-background:linear-gradient(145deg,#111,#1c1c1c);
-border-radius:20px;
-box-shadow:0 0 40px rgba(212,175,55,.5),
-0 60px 120px rgba(0,0,0,.9);
-text-align:center;
-transform:scale(0) rotateY(90deg);
-transition:1.2s cubic-bezier(.22,1,.36,1);
+  position:absolute;
+  width:90%;
+  max-width:380px;
+  padding:60px 30px;
+  background:linear-gradient(145deg,#111,#1c1c1c);
+  border-radius:20px;
+  box-shadow:0 0 40px rgba(212,175,55,.5),
+             0 60px 120px rgba(0,0,0,.9);
+  text-align:center;
+  transform:scale(0) rotateY(90deg);
+  transition:1.2s cubic-bezier(.22,1,.36,1);
 }
 
+/* Convite visível */
 .invite.show{
-transform:scale(1) rotateY(0deg);
+  transform:scale(1) rotateY(0deg);
 }
 
-/* NOMES */
+/* Nomes e estilo luxo */
 .names{
-font-family:'Playfair Display',serif;
-font-size:36px;
-background:linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
-background-size:200% auto;
-color:transparent;
--webkit-background-clip:text;
-animation:shine 4s linear infinite;
-margin-bottom:20px;
+  font-family:'Playfair Display',serif;
+  font-size:36px;
+  background:linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
+  background-size:200% auto;
+  color:transparent;
+  -webkit-background-clip:text;
+  animation:shine 4s linear infinite;
+  margin-bottom:20px;
 }
 @keyframes shine{
-to{background-position:200% center;}
+  to{background-position:200% center;}
 }
 
 .date{color:#d4af37;font-weight:600;margin-bottom:10px;}
 .location{margin-bottom:20px;}
 .countdown{font-size:13px;margin-bottom:25px;}
 
-/* BOTÃO */
+/* Botão */
 .map-btn{
-display:inline-block;
-padding:14px 30px;
-border-radius:40px;
-background:linear-gradient(45deg,#b08d57,#d4af37);
-color:black;
-text-decoration:none;
-font-size:13px;
-box-shadow:0 0 20px rgba(212,175,55,.7);
-transition:.3s;
+  display:inline-block;
+  padding:14px 30px;
+  border-radius:40px;
+  background:linear-gradient(45deg,#b08d57,#d4af37);
+  color:black;
+  text-decoration:none;
+  font-size:13px;
+  box-shadow:0 0 20px rgba(212,175,55,.7);
+  transition:.3s;
 }
 .map-btn:active{transform:scale(.95);}
-
 </style>
 </head>
 <body>
 
-<div class="intro" id="intro">TOQUE NA TELA PARA REVELAR O DESTINO</div>
-
+<div class="intro" id="intro">TOQUE NA TELA PARA COMEÇAR A EXPERIÊNCIA</div>
 <div class="portal" id="portal"></div>
+<div class="crystal" id="crystal"></div>
 <div class="energy" id="energy"></div>
 <div class="flash" id="flash"></div>
 
@@ -150,7 +165,6 @@ transition:.3s;
 <div class="date">01 de Janeiro de 2026</div>
 <div class="location">Igreja Nossa Senhora da Glória</div>
 <div class="countdown" id="countdown"></div>
-
 <a class="map-btn" target="_blank"
 href="https://www.google.com/maps/search/?api=1&query=Igreja+Nossa+Senhora+da+Glória">
 Ver Localização
@@ -158,75 +172,115 @@ Ver Localização
 </div>
 
 <script>
-
 const intro=document.getElementById("intro");
 const portal=document.getElementById("portal");
-const invite=document.getElementById("invite");
-const flash=document.getElementById("flash");
+const crystal=document.getElementById("crystal");
 const energy=document.getElementById("energy");
+const flash=document.getElementById("flash");
+const invite=document.getElementById("invite");
 
-let clicks=0;
+let stage=0;
 
-/* Fundo partículas */
+/* Fundo partículas contínuas */
 function createParticle(){
-const p=document.createElement("div");
-p.className="particle";
-p.style.left=Math.random()*100+"vw";
-p.style.animationDuration=(6+Math.random()*6)+"s";
-document.body.appendChild(p);
-setTimeout(()=>p.remove(),12000);
+  const p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(6+Math.random()*6)+"s";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),12000);
 }
 setInterval(createParticle,400);
 
-/* Primeira interação */
-document.body.addEventListener("click",()=>{
-if(clicks===0){
-intro.style.display="none";
-portal.style.display="block";
-}
-if(portal.style.display==="block"){
-clicks++;
-energy.style.opacity=clicks*0.3;
-
-if(clicks>=3){
-explode();
-portal.style.display="none";
-energy.style.opacity=0;
-setTimeout(()=>{
-invite.classList.add("show");
-},500);
-}
-}
-});
-
-/* Explosão */
-function explode(){
-flash.style.opacity=1;
-flash.style.transition="opacity .5s";
-setTimeout(()=>flash.style.opacity=0,400);
-}
-
-/* Countdown */
+/* Contador */
 function updateCountdown(){
-const date=new Date("January 1, 2026 00:00:00").getTime();
-const now=new Date().getTime();
-const diff=date-now;
-
-if(diff>0){
-const d=Math.floor(diff/(1000*60*60*24));
-const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-const m=Math.floor((diff%(1000*60*60))/(1000*60));
-const s=Math.floor((diff%(1000*60))/1000);
-document.getElementById("countdown").innerHTML=
-"Faltam "+d+" dias • "+h+"h "+m+"m "+s+"s";
-}else{
-document.getElementById("countdown").innerHTML="Hoje é o grande dia ✨";
-}
+  const date=new Date("January 1, 2026 00:00:00").getTime();
+  const now=new Date().getTime();
+  const diff=date-now;
+  if(diff>0){
+    const d=Math.floor(diff/(1000*60*60*24));
+    const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+    const m=Math.floor((diff%(1000*60*60))/(1000*60));
+    const s=Math.floor((diff%(1000*60))/1000);
+    document.getElementById("countdown").innerHTML=
+    "Faltam "+d+" dias • "+h+"h "+m+"m "+s+"s";
+  }else{
+    document.getElementById("countdown").innerHTML="Hoje é o grande dia ✨";
+  }
 }
 setInterval(updateCountdown,1000);
 updateCountdown();
 
-</script>
+/* Função explosão */
+function explode(x=50,y=50,count=50){
+  for(let i=0;i<count;i++){
+    const frag=document.createElement("div");
+    frag.className="particle";
+    frag.style.left=x+"vw";
+    frag.style.top=y+"vh";
+    frag.style.width=4+'px';
+    frag.style.height=4+'px';
+    frag.style.background="gold";
+    frag.style.borderRadius="50%";
+    frag.style.animationDuration=(0.8+Math.random()*0.5)+"s";
+    document.body.appendChild(frag);
+    setTimeout(()=>frag.remove(),1000);
+  }
+  flash.style.opacity=1;
+  flash.style.transition="opacity .3s";
+  setTimeout(()=>flash.style.opacity=0,200);
+}
 
+/* Clique principal */
+document.body.addEventListener("click",()=>{
+  stage++;
+  
+  if(stage===1){
+    intro.style.display="none";
+    portal.style.display="block";
+  }
+  
+  else if(stage===2){
+    energy.style.opacity=0.3;
+    explode(50,50,40);
+  }
+  
+  else if(stage===3){
+    energy.style.opacity=0.6;
+    explode(50,50,60);
+  }
+  
+  else if(stage===4){
+    portal.style.display="none";
+    crystal.style.display="block";
+    explode(50,50,80);
+  }
+  
+  else if(stage===5){
+    energy.style.opacity=1;
+    explode(50,50,100);
+  }
+  
+  else if(stage===6){
+    crystal.style.display="none";
+    invite.classList.add("show");
+    explode(50,50,120);
+  }
+});
+
+/* Parallax leve */
+document.addEventListener("mousemove",(e)=>{
+  const x=(window.innerWidth/2-e.clientX)/40;
+  const y=(window.innerHeight/2-e.clientY)/40;
+  if(invite.classList.contains("show")){
+    invite.style.transform=`scale(1) rotateY(${x}deg) rotateX(${y}deg)`;
+  }else if(crystal.style.display==="block"){
+    crystal.style.transform=`translateY(-10px) rotateY(${x*10}deg) rotateX(${y*10}deg)`;
+  }else if(portal.style.display==="block"){
+    portal.style.transform=`rotateY(${x*10}deg) rotateX(${y*10}deg)`;
+  }
+});
+
+</script>
 </body>
 </html>
