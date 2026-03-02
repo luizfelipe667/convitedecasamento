@@ -9,107 +9,103 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
 height:100vh;
 overflow:hidden;
-background:radial-gradient(circle at center,#111,#000);
+background:radial-gradient(circle at center,#0d0d0d,#000);
+font-family:'Montserrat',sans-serif;
+color:white;
 display:flex;
 justify-content:center;
 align-items:center;
-font-family:'Montserrat',sans-serif;
-color:white;
 }
 
-/* FUNDO PARTÍCULAS */
+/* PARTÍCULAS FUNDO */
 .particle{
 position:absolute;
-width:3px;
-height:3px;
+width:2px;height:2px;
 background:gold;
 border-radius:50%;
-opacity:.6;
+opacity:.5;
 animation:float linear infinite;
 }
-
 @keyframes float{
 0%{transform:translateY(100vh);opacity:0;}
 20%{opacity:1;}
 100%{transform:translateY(-10vh);opacity:0;}
 }
 
-/* CRISTAL 3D */
-.crystal{
-width:150px;
-height:150px;
-background:linear-gradient(135deg,#d4af37,#fff5cc,#b08d57);
-clip-path:polygon(50% 0%, 90% 25%, 100% 70%, 50% 100%, 0% 70%, 10% 25%);
+/* TEXTO INICIAL */
+.intro{
+position:absolute;
+text-align:center;
+animation:pulse 2s infinite;
+letter-spacing:2px;
+font-size:14px;
+opacity:.8;
+}
+@keyframes pulse{
+0%{opacity:.3;}
+50%{opacity:1;}
+100%{opacity:.3;}
+}
+
+/* PORTAL */
+.portal{
+width:180px;height:180px;
+border-radius:50%;
+border:4px solid gold;
+box-shadow:0 0 30px gold, inset 0 0 40px rgba(212,175,55,.4);
 animation:spin 6s linear infinite;
 cursor:pointer;
-box-shadow:0 0 40px gold;
-transition:transform .3s ease;
+display:none;
 }
-
-.crystal:active{
-transform:scale(.9);
-}
-
 @keyframes spin{
-from{transform:rotateY(0deg) rotateX(0deg);}
-to{transform:rotateY(360deg) rotateX(360deg);}
+to{transform:rotate(360deg);}
 }
 
-/* EXPLOSÃO */
-.fragment{
+/* ENERGIA */
+.energy{
 position:absolute;
-width:8px;
-height:8px;
-background:gold;
-border-radius:2px;
-pointer-events:none;
-animation:explode 1s ease-out forwards;
-}
-
-@keyframes explode{
-to{
-transform:translate(var(--x),var(--y)) rotate(720deg);
+width:200px;height:200px;
+border-radius:50%;
+background:radial-gradient(circle,rgba(212,175,55,.4),transparent 70%);
 opacity:0;
-}
+transition:.3s;
 }
 
 /* FLASH */
 .flash{
 position:absolute;
-width:100%;
-height:100%;
+width:100%;height:100%;
 background:white;
 opacity:0;
 pointer-events:none;
 }
 
-/* PLACA 3D */
+/* PLACA FINAL */
 .invite{
 position:absolute;
 width:90%;
 max-width:380px;
-padding:50px 30px;
-background:linear-gradient(145deg,#1c1c1c,#111);
+padding:60px 30px;
+background:linear-gradient(145deg,#111,#1c1c1c);
 border-radius:20px;
-box-shadow:
-0 0 40px rgba(212,175,55,.5),
-0 40px 100px rgba(0,0,0,.8);
+box-shadow:0 0 40px rgba(212,175,55,.5),
+0 60px 120px rgba(0,0,0,.9);
 text-align:center;
-transform:scale(0) rotateX(90deg);
+transform:scale(0) rotateY(90deg);
 transition:1.2s cubic-bezier(.22,1,.36,1);
 }
 
 .invite.show{
-transform:scale(1) rotateX(0deg);
+transform:scale(1) rotateY(0deg);
 }
 
+/* NOMES */
 .names{
 font-family:'Playfair Display',serif;
-font-size:34px;
+font-size:36px;
 background:linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
 background-size:200% auto;
 color:transparent;
@@ -117,31 +113,19 @@ color:transparent;
 animation:shine 4s linear infinite;
 margin-bottom:20px;
 }
-
 @keyframes shine{
 to{background-position:200% center;}
 }
 
-.date{
-color:#d4af37;
-font-weight:600;
-margin-bottom:10px;
-}
-
-.location{
-margin-bottom:20px;
-}
-
-.countdown{
-font-size:13px;
-margin-bottom:25px;
-}
+.date{color:#d4af37;font-weight:600;margin-bottom:10px;}
+.location{margin-bottom:20px;}
+.countdown{font-size:13px;margin-bottom:25px;}
 
 /* BOTÃO */
 .map-btn{
 display:inline-block;
-padding:12px 28px;
-border-radius:30px;
+padding:14px 30px;
+border-radius:40px;
 background:linear-gradient(45deg,#b08d57,#d4af37);
 color:black;
 text-decoration:none;
@@ -149,16 +133,16 @@ font-size:13px;
 box-shadow:0 0 20px rgba(212,175,55,.7);
 transition:.3s;
 }
-
-.map-btn:active{
-transform:scale(.95);
-}
+.map-btn:active{transform:scale(.95);}
 
 </style>
 </head>
 <body>
 
-<div class="crystal" id="crystal"></div>
+<div class="intro" id="intro">TOQUE NA TELA PARA REVELAR O DESTINO</div>
+
+<div class="portal" id="portal"></div>
+<div class="energy" id="energy"></div>
 <div class="flash" id="flash"></div>
 
 <div class="invite" id="invite">
@@ -175,55 +159,52 @@ Ver Localização
 
 <script>
 
-const crystal=document.getElementById("crystal");
+const intro=document.getElementById("intro");
+const portal=document.getElementById("portal");
 const invite=document.getElementById("invite");
 const flash=document.getElementById("flash");
+const energy=document.getElementById("energy");
 
-/* Clique cristal */
-crystal.addEventListener("click",()=>{
+let clicks=0;
 
-explode();
-flashEffect();
-
-crystal.style.display="none";
-
-setTimeout(()=>{
-invite.classList.add("show");
-},500);
-
-});
-
-/* Explosão */
-function explode(){
-for(let i=0;i<60;i++){
-const frag=document.createElement("div");
-frag.className="fragment";
-frag.style.left="50%";
-frag.style.top="50%";
-frag.style.setProperty('--x',(Math.random()*600-300)+'px');
-frag.style.setProperty('--y',(Math.random()*600-300)+'px');
-document.body.appendChild(frag);
-setTimeout(()=>frag.remove(),1000);
-}
-}
-
-/* Flash */
-function flashEffect(){
-flash.style.opacity="1";
-flash.style.transition="opacity .5s";
-setTimeout(()=>flash.style.opacity="0",300);
-}
-
-/* Partículas fundo */
+/* Fundo partículas */
 function createParticle(){
 const p=document.createElement("div");
 p.className="particle";
 p.style.left=Math.random()*100+"vw";
-p.style.animationDuration=(8+Math.random()*6)+"s";
+p.style.animationDuration=(6+Math.random()*6)+"s";
 document.body.appendChild(p);
-setTimeout(()=>p.remove(),14000);
+setTimeout(()=>p.remove(),12000);
 }
-setInterval(createParticle,500);
+setInterval(createParticle,400);
+
+/* Primeira interação */
+document.body.addEventListener("click",()=>{
+if(clicks===0){
+intro.style.display="none";
+portal.style.display="block";
+}
+if(portal.style.display==="block"){
+clicks++;
+energy.style.opacity=clicks*0.3;
+
+if(clicks>=3){
+explode();
+portal.style.display="none";
+energy.style.opacity=0;
+setTimeout(()=>{
+invite.classList.add("show");
+},500);
+}
+}
+});
+
+/* Explosão */
+function explode(){
+flash.style.opacity=1;
+flash.style.transition="opacity .5s";
+setTimeout(()=>flash.style.opacity=0,400);
+}
 
 /* Countdown */
 function updateCountdown(){
