@@ -1,169 +1,252 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convite: Geovana & Felipe</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Convite Real: Geovana & Felipe</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+
     <style>
-        body { margin: 0; overflow: hidden; background: #050505; font-family: 'Cinzel', serif; color: white; cursor: crosshair; }
-        canvas { display: block; }
-
-        #ui-layer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            pointer-events: none; text-align: center; z-index: 10;
+        :root {
+            --gold-primary: #bf9b30;
+            --gold-secondary: #e7d19a;
+            --gold-dark: #8c6212;
+            --bg-dark: #0a0a0a; /* Fundo preto para o dourado brilhar */
+            --text-light: #ffffff;
+            --font-cinzel: 'Cinzel Decorative', serif;
+            --font-vibes: 'Great Vibes', cursive;
+            --font-montserrat: 'Montserrat', sans-serif;
+            --transition-epic: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .instruction {
-            font-size: 1.2rem; letter-spacing: 5px; text-transform: uppercase;
-            animation: pulse 2s infinite; opacity: 0.8;
+        /* Reset e Base Otimizada para Celular */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body, html { 
+            height: 100%; 
+            width: 100%; 
+            background-color: var(--bg-dark); 
+            font-family: var(--font-montserrat); 
+            overflow: hidden; /* Previne scroll durante a animação inicial */
+            color: var(--text-light);
         }
 
-        #invite-card {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
-            padding: 40px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 15px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(212, 175, 55, 0.2);
-            opacity: 0; pointer-events: none; width: 80%; max-width: 500px;
+        /* --- CONTAINER PRINCIPAL DO CONVITE --- */
+        .main-stage {
+            perspective: 1500px; /* Necessário para efeito 3D */
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        .names { font-family: 'Great Vibes', cursive; font-size: 4rem; color: #d4af37; margin: 10px 0; text-shadow: 0 0 10px rgba(212,175,55,0.5); }
-        .details { font-size: 1rem; line-height: 1.8; letter-spacing: 2px; }
-        .countdown { display: flex; justify-content: space-around; margin-top: 30px; border-top: 1px solid rgba(212,175,55,0.3); padding-top: 20px; }
-        .countdown-item { display: flex; flex-direction: column; }
-        .countdown-item span { font-size: 1.5rem; font-weight: bold; color: #d4af37; }
+        /* --- O ENVELOPE (Fase 1: Fechado) --- */
+        .envelope-wrapper {
+            width: 100%;
+            max-width: 400px;
+            height: 80vh; /* Altura dramática no celular */
+            background: radial-gradient(circle, #2a2a2a 0%, #1a1a1a 100%);
+            border: 2px solid var(--gold-primary);
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(191, 155, 48, 0.3);
+            cursor: pointer;
+            transition: var(--transition-epic);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
 
-        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-    </style>
-</head>
-<body>
+        .envelope-wrapper.opened {
+            transform: rotateX(180deg) scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+        }
 
-    <div id="ui-layer">
-        <div class="instruction" id="hint">Toque para despertar a magia</div>
+        /* Brasão Exagerado no Envelope */
+        .brasa-envelope {
+            width: 120px;
+            height: 120px;
+            border: 4px solid var(--gold-secondary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px var(--gold-dark);
+            position: relative;
+            animation: pulse-gold 2s infinite;
+        }
+
+        .brasa-envelope::after {
+            content: "GF";
+            font-family: var(--font-cinzel);
+            font-size: 3rem;
+            color: var(--gold-secondary);
+            text-shadow: 0 0 10px var(--gold-primary);
+        }
+
+        .click-text {
+            font-family: var(--font-cinzel);
+            color: var(--gold-secondary);
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* --- O CONVITE INTERNO (Fase 2: Aberto) --- */
+        .invite-content {
+            position: absolute;
+            width: 100%;
+            max-width: 500px;
+            height: 90vh;
+            background-color: var(--bg-dark);
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNiZjl0MzAiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTIwIDIwaDIwdjIwSDIWMjB6TTAgMjBoMjB2MjBIMFYyMHoyMCAwaDIwdjIwSDIwVjB6Ii8+PC9nPjwvZz48L3N2Zz4='); /* Textura sutil */
+            border: 10px solid;
+            border-image: linear-gradient(to bottom right, var(--gold-dark), var(--gold-secondary), var(--gold-dark)) 1;
+            padding: 30px;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.5) translateZ(-1000px);
+            transition: var(--transition-epic);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto; /* Permite scroll interno se o texto for muito grande em celular pequeno */
+            z-index: 5;
+        }
+
+        .invite-content.show {
+            opacity: 1;
+            transform: scale(1) translateZ(0px);
+            overflow-y: auto;
+        }
+
+        /* --- TIPOGRAFIA DO CONVITE --- */
+        .save-the-date {
+            font-family: var(--font-cinzel);
+            color: var(--gold-secondary);
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .names {
+            font-family: var(--font-vibes);
+            font-size: 4rem; /* Gigante no celular */
+            background: linear-gradient(to bottom, var(--gold-secondary) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(191, 155, 48, 0.8));
+            margin: 10px 0;
+            line-height: 1;
+        }
         
-        <div id="invite-card">
-            <p>CONVIDAM PARA SEU CASAMENTO</p>
-            <div class="names">Geovana & Felipe</div>
-            <div class="details">
-                01 DE JANEIRO DE 2026<br>
-                IGREJA NOSSA SENHORA DA GLÓRIA<br>
-                TERESINA - PI
-            </div>
-            <div class="countdown" id="timer">
-                <div class="countdown-item"><span id="days">00</span>DIAS</div>
-                <div class="countdown-item"><span id="hours">00</span>HORAS</div>
-                <div class="countdown-item"><span id="mins">00</span>MIN</div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let scene, camera, renderer, crystal, particles, portal;
-        let clicks = 0;
-        const requiredClicks = 7;
-
-        function init() {
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
-
-            // Luzes
-            const light = new THREE.PointLight(0xd4af37, 2, 100);
-            light.position.set(0, 0, 10);
-            scene.add(light);
-
-            // Geometria do Cristal (Dodecaedro para look luxuoso)
-            const geometry = new THREE.DodecahedronGeometry(1.5, 0);
-            const material = new THREE.MeshPhongMaterial({
-                color: 0x222222, emissive: 0xd4af37, emissiveIntensity: 0.2,
-                shininess: 100, flatShading: true, transparent: true, opacity: 0.9
-            });
-            crystal = new THREE.Mesh(geometry, material);
-            scene.add(crystal);
-
-            // Partículas de Fundo
-            const partGeom = new THREE.BufferGeometry();
-            const partCount = 1500;
-            const posArray = new Float32Array(partCount * 3);
-            for(let i=0; i < partCount * 3; i++) posArray[i] = (Math.random() - 0.5) * 15;
-            partGeom.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const partMat = new THREE.PointsMaterial({ size: 0.02, color: 0xd4af37, transparent: true, opacity: 0.5 });
-            particles = new THREE.Points(partGeom, partMat);
-            scene.add(particles);
-
-            camera.position.z = 5;
-            animate();
+        .ampersand {
+            font-family: var(--font-cinzel);
+            font-size: 2rem;
+            -webkit-text-fill-color: var(--text-light); /* Respiro branco */
+            display: block;
+            margin: -10px 0;
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            crystal.rotation.y += 0.01;
-            crystal.rotation.x += 0.005;
-            particles.rotation.y += 0.001;
-            renderer.render(scene, camera);
+        .details-text {
+            font-weight: 300;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 20px 0;
+            color: #e0e0e0;
         }
 
-        // Interação de Clique
-        window.addEventListener('mousedown', () => {
-            if (clicks < requiredClicks) {
-                clicks++;
-                
-                // Explosão Visual
-                gsap.to(crystal.scale, { x: 1.5, y: 1.5, z: 1.5, duration: 0.1, yoyo: true, repeat: 1 });
-                gsap.to(crystal.material, { emissiveIntensity: clicks * 0.8, duration: 0.2 });
-                
-                // Parallax/Movimento de impacto
-                gsap.to(camera.position, { z: 4.8, duration: 0.1, yoyo: true, repeat: 1 });
-
-                if (clicks === requiredClicks) {
-                    revealInvite();
-                }
-            }
-        });
-
-        function revealInvite() {
-            document.getElementById('hint').style.display = 'none';
-            gsap.to(crystal.scale, { x: 0, y: 0, z: 0, duration: 1, ease: "back.in(1.7)" });
-            gsap.to("#invite-card", { opacity: 1, scale: 1, duration: 1.5, ease: "power4.out", pointerEvents: "auto" });
+        .highlight-gold {
+            color: var(--gold-secondary);
+            font-weight: 600;
         }
 
-        // Parallax do Mouse
-        window.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 2;
-            const y = (e.clientY / window.innerHeight - 0.5) * 2;
-            gsap.to(crystal.rotation, { x: y, y: x, duration: 2 });
-            gsap.to(scene.rotation, { y: x * 0.2, x: y * 0.1, duration: 2 });
-        });
-
-        // Countdown Logic
-        function updateTimer() {
-            const target = new Date("January 1, 2026 00:00:00").getTime();
-            const now = new Date().getTime();
-            const diff = target - now;
-
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-            document.getElementById('days').innerText = d < 10 ? '0'+d : d;
-            document.getElementById('hours').innerText = h < 10 ? '0'+h : h;
-            document.getElementById('mins').innerText = m < 10 ? '0'+m : m;
+        /* --- CONTAGEM REGRESSIVA (EXAGERADA) --- */
+        .countdown-container {
+            margin: 20px 0;
+            border-top: 1px solid var(--gold-dark);
+            border-bottom: 1px solid var(--gold-dark);
+            padding: 15px 0;
         }
-        setInterval(updateTimer, 1000);
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
 
-        init();
-        updateTimer();
-    </script>
-</body>
-</html>
+        .time-box {
+            background: linear-gradient(145deg, #1a1a1a, #000000);
+            border: 1px solid var(--gold-primary);
+            padding: 10px;
+            min-width: 70px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(191, 155, 48, 0.2);
+        }
+
+        .time-number {
+            font-family: var(--font-cinzel);
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold-secondary);
+            display: block;
+            text-shadow: 0 0 10px var(--gold-primary);
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        /* --- BOTÃO DE CONFIRMAÇÃO (RSVP) --- */
+        .rsvp-button {
+            background: linear-gradient(to right, var(--gold-dark), var(--gold-primary), var(--gold-dark));
+            color: #000;
+            font-family: var(--font-cinzel);
+            font-weight: 900;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            border: none;
+            padding: 18px;
+            width: 100%;
+            cursor: pointer;
+            border-radius: 4px;
+            letter-spacing: 3px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(140, 98, 18, 0.4);
+        }
+
+        .rsvp-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Efeito de Brilho Correndo no Botão */
+        .rsvp-button::after {
+            content: '';
+            position: absolute;
+            top: -50%; align-content: start; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg);
+            animation: shine-button 3s infinite;
+        }
+
+        /* --- ANIMAÇÕES --- */
+        @keyframes pulse-gold {
+            0
