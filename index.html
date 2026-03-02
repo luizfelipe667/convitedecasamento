@@ -5,154 +5,82 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Geovana & Felipe</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 height:100vh;
+overflow:hidden;
+font-family:'Montserrat',sans-serif;
+background:#f4f1ed;
 display:flex;
 justify-content:center;
 align-items:center;
-background:radial-gradient(circle at top,#f2ece6,#e2d6cc);
-font-family:'Montserrat',sans-serif;
-overflow:hidden;
 }
 
-/* Luz dinâmica */
-body::before{
-content:"";
+/* FUNDO MÁRMORE ANIMADO */
+.background{
 position:absolute;
 width:200%;
 height:200%;
-background:radial-gradient(circle at 50% 30%, rgba(255,255,255,0.6), transparent 60%);
-animation:lightMove 8s infinite alternate ease-in-out;
-pointer-events:none;
-}
-
-@keyframes lightMove{
-0%{transform:translate(-10%,-10%) rotate(0deg);}
-100%{transform:translate(10%,10%) rotate(8deg);}
-}
-
-/* Cena */
-.scene{
-width:100%;
-max-width:390px;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-perspective:3000px;
-}
-
-/* Envelope */
-.envelope{
-position:relative;
-width:340px;
-height:230px;
-transform-style:preserve-3d;
-cursor:pointer;
-transition:transform 1.5s cubic-bezier(.22,1,.36,1);
-}
-
-/* Movimento de câmera */
-.open.envelope{
-transform:rotateX(10deg) rotateY(-6deg) scale(1.05);
-}
-
-/* Base */
-.base{
-position:absolute;
-width:100%;
-height:100%;
-background:white;
-border-radius:14px;
-box-shadow:0 50px 100px rgba(0,0,0,0.4),
-inset 0 0 40px rgba(0,0,0,0.05);
-}
-
-/* Aba */
-.flap{
-position:absolute;
-width:100%;
-height:100%;
-background:white;
-clip-path:polygon(0 0,100% 0,50% 65%);
-transform-origin:top;
-transition:transform 1.5s cubic-bezier(.65,-0.3,.2,1.6);
-border-radius:14px;
-z-index:3;
-}
-
-/* Lacre */
-.seal{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%) translateZ(20px);
-width:65px;
-height:65px;
-background:radial-gradient(circle,#d4af37,#b08d57);
-border-radius:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-font-family:'Cormorant Garamond',serif;
-font-size:22px;
-box-shadow:0 15px 40px rgba(0,0,0,0.5);
-transition:all .8s ease;
-z-index:5;
-}
-
-/* Carta */
-.letter{
-position:absolute;
-top:0;
-left:50%;
-transform:translateX(-50%) translateY(30px) translateZ(-5px);
-width:92%;
-height:400px;
 background:
-linear-gradient(135deg,rgba(0,0,0,0.03),rgba(255,255,255,0.6)),
-repeating-linear-gradient(
-0deg,
-rgba(0,0,0,0.02),
-rgba(0,0,0,0.02) 1px,
-transparent 1px,
-transparent 4px
-);
-border-radius:14px;
-padding:40px 25px;
+radial-gradient(circle at 30% 30%,rgba(255,255,255,0.6),transparent 60%),
+radial-gradient(circle at 70% 70%,rgba(0,0,0,0.05),transparent 60%),
+linear-gradient(120deg,#f2ede8,#e6ddd5,#f2ede8);
+animation:moveBg 20s infinite alternate ease-in-out;
+}
+
+@keyframes moveBg{
+0%{transform:translate(-5%,-5%) rotate(0deg);}
+100%{transform:translate(5%,5%) rotate(2deg);}
+}
+
+/* PARTÍCULAS FLUTUANTES */
+.particle{
+position:absolute;
+width:3px;
+height:3px;
+background:rgba(212,175,55,0.7);
+border-radius:50%;
+animation:float linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh);opacity:0;}
+20%{opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* CARD PRINCIPAL */
+.card{
+position:relative;
+width:90%;
+max-width:380px;
+padding:50px 30px;
+background:rgba(255,255,255,0.75);
+backdrop-filter:blur(10px);
+border-radius:20px;
+box-shadow:0 40px 100px rgba(0,0,0,0.25);
 text-align:center;
-box-shadow:0 60px 120px rgba(0,0,0,0.45);
-transition:transform 1.8s cubic-bezier(.22,1,.36,1), opacity 1s ease;
+transform-style:preserve-3d;
+transition:transform .2s ease;
+animation:fadeUp 1.5s ease forwards;
 opacity:0;
 }
 
-/* Carta sobe */
-.open .letter{
-transform:translateX(-50%) translateY(-300px) translateZ(120px);
+@keyframes fadeUp{
+to{
 opacity:1;
+transform:translateY(0);
+}
 }
 
-/* Aba abre */
-.open .flap{
-transform:rotateX(-180deg);
-}
-
-/* Lacre desaparece */
-.open .seal{
-opacity:0;
-transform:translate(-50%,-50%) scale(0) rotate(360deg);
-}
-
-/* Nomes com brilho dourado animado */
+/* NOMES DOURADOS */
 .names{
-font-family:'Cormorant Garamond',serif;
-font-size:36px;
+font-family:'Playfair Display',serif;
+font-size:34px;
 background:linear-gradient(90deg,#b08d57,#fff5cc,#b08d57);
 background-size:200% auto;
 color:transparent;
@@ -166,98 +94,57 @@ to{background-position:200% center;}
 }
 
 .subtitle{
-font-family:'Cormorant Garamond',serif;
-font-size:18px;
-margin-bottom:20px;
-}
-
-p{
 font-size:14px;
-line-height:1.7;
-margin-bottom:15px;
+letter-spacing:2px;
+margin-bottom:25px;
+color:#444;
 }
 
 .date{
-color:#b08d57;
 font-weight:600;
-margin-bottom:5px;
+color:#b08d57;
+margin-bottom:10px;
 }
 
-.location{margin-bottom:15px;}
-
-.countdown{
-font-size:13px;
+.location{
 margin-bottom:20px;
 }
 
-/* Botão luxuoso */
+.countdown{
+font-size:13px;
+margin-bottom:25px;
+}
+
+/* BOTÃO */
 .map-btn{
 display:inline-block;
-padding:12px 26px;
+padding:12px 28px;
 border-radius:30px;
 background:linear-gradient(45deg,#b08d57,#d4af37);
 color:white;
 text-decoration:none;
 font-size:13px;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
 transition:.3s;
 }
 
-.map-btn:hover{
-box-shadow:0 15px 40px rgba(0,0,0,0.6);
-}
-
-/* Partículas */
-.particle{
-position:absolute;
-width:6px;
-height:6px;
-background:gold;
-border-radius:50%;
-pointer-events:none;
-animation:explode 1.3s ease-out forwards;
-}
-
-@keyframes explode{
-to{
-transform:translate(var(--x),var(--y)) scale(.5);
-opacity:0;
-}
-}
-
-/* Pétalas */
-.petal{
-position:absolute;
-width:14px;
-height:20px;
-background:radial-gradient(circle at 30% 30%, #ff9aa2, #e75480);
-border-radius:50%;
-opacity:0.9;
-animation:fall linear infinite;
-}
-
-@keyframes fall{
-0%{transform:translateY(-10vh) rotate(0deg);}
-100%{transform:translateY(110vh) rotate(360deg);}
+.map-btn:active{
+transform:scale(.95);
 }
 
 </style>
 </head>
 <body>
 
-<div class="scene">
-<div class="envelope" id="envelope">
+<div class="background"></div>
 
-<div class="base"></div>
-<div class="flap"></div>
-<div class="seal">G&F</div>
-
-<div class="letter">
+<div class="card" id="card">
 <div class="names">Geovana Lima<br>&<br>Felipe</div>
-<div class="subtitle">Convidam você para celebrar o amor</div>
-<p>Sua presença tornará nosso dia inesquecível.</p>
+<div class="subtitle">CONVIDAM PARA CELEBRAR O AMOR</div>
+
 <div class="date">01 de Janeiro de 2026</div>
 <div class="location">Igreja Nossa Senhora da Glória</div>
+
 <div class="countdown" id="countdown"></div>
 
 <a class="map-btn" target="_blank"
@@ -266,43 +153,26 @@ Ver Localização
 </a>
 </div>
 
-</div>
-</div>
-
 <script>
-const envelope=document.getElementById("envelope");
 
-envelope.addEventListener("click",()=>{
-if(!envelope.classList.contains("open")){
-explodeParticles();
-}
-envelope.classList.toggle("open");
+/* Parallax 3D suave */
+const card=document.getElementById("card");
+document.addEventListener("mousemove",(e)=>{
+const x=(window.innerWidth/2-e.clientX)/40;
+const y=(window.innerHeight/2-e.clientY)/40;
+card.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`;
 });
 
-/* Partículas */
-function explodeParticles(){
-for(let i=0;i<40;i++){
+/* Partículas douradas flutuantes */
+function createParticle(){
 const p=document.createElement("div");
 p.className="particle";
-p.style.left="50%";
-p.style.top="50%";
-p.style.setProperty('--x',(Math.random()*500-250)+'px');
-p.style.setProperty('--y',(Math.random()*500-250)+'px');
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=(8+Math.random()*6)+"s";
 document.body.appendChild(p);
-setTimeout(()=>p.remove(),1300);
+setTimeout(()=>p.remove(),14000);
 }
-}
-
-/* Pétalas */
-function createPetal(){
-const petal=document.createElement("div");
-petal.className="petal";
-petal.style.left=Math.random()*100+"vw";
-petal.style.animationDuration=(6+Math.random()*6)+"s";
-document.body.appendChild(petal);
-setTimeout(()=>petal.remove(),12000);
-}
-setInterval(createPetal,900);
+setInterval(createParticle,700);
 
 /* Countdown */
 function updateCountdown(){
@@ -323,6 +193,7 @@ document.getElementById("countdown").innerHTML="Hoje é o grande dia ✨";
 }
 setInterval(updateCountdown,1000);
 updateCountdown();
+
 </script>
 
 </body>
