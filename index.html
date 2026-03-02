@@ -1,180 +1,110 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GEOVANA & FELIPE 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Luckiest+Guy&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* RESET TOTAL PARA NÃO TRAVAR NO MOBILE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        body {
-            background: #000;
-            overflow: hidden;
+        body, html { 
+            width: 100%; height: 100%; 
+            background: #000; 
+            overflow: hidden; 
             font-family: 'Arial', sans-serif;
-            height: 100vh;
-            width: 100vw;
-            touch-action: none;
         }
 
-        /* --- CAMADA 1: A CORTINA DE DESENHO ANIMADO --- */
-        #curtain-layer {
+        /* CAMADA DE ABERTURA (A QUE VOCÊ VÊ PRIMEIRO) */
+        #topo {
             position: fixed;
-            inset: 0;
-            background: #ff007f;
-            z-index: 100;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ff007f; /* Rosa Choque */
+            z-index: 9999; /* No topo de tudo */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             border: 15px solid #ffee00;
-            transition: all 0.8s cubic-bezier(0.9, 0, 0.1, 1);
+            cursor: pointer;
+            transition: transform 0.8s cubic-bezier(0.9, 0, 0.1, 1);
         }
 
-        .instruction-box {
+        /* ANIMAÇÃO DO BOTÃO CENTRAL */
+        .botao-animado {
             background: #fff;
             border: 8px solid #000;
             padding: 20px;
             transform: rotate(-5deg);
             box-shadow: 15px 15px 0 #00e5ff;
-            text-align: center;
-            animation: shake 0.5s infinite;
+            animation: balanco 0.5s infinite alternate;
+            pointer-events: none; /* O clique passa para o pai */
         }
 
-        @keyframes shake {
-            0% { transform: rotate(-5deg) scale(1); }
-            50% { transform: rotate(5deg) scale(1.1); }
-            100% { transform: rotate(-5deg) scale(1); }
+        @keyframes balanco {
+            from { transform: rotate(-5deg) scale(1); }
+            to { transform: rotate(5deg) scale(1.1); }
         }
 
-        .instruction-box h2 {
+        .texto-click {
             font-family: 'Bangers', cursive;
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: #ff007f;
+            text-align: center;
         }
 
-        /* --- CAMADA 2: O CONVITE CINEMATOGRÁFICO --- */
-        #invite-layer {
-            position: fixed;
-            inset: 0;
+        /* CONVITE (ESCONDIDO ATRÁS) */
+        #convite {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #7000ff, #ff007f);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            z-index: 10;
             padding: 20px;
-            z-index: 50;
         }
 
-        .main-card {
+        .card {
             background: #fff;
             border: 10px solid #000;
-            padding: 40px 20px;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 20px 20px 0 #ffee00;
+            padding: 30px;
             text-align: center;
-            position: relative;
+            box-shadow: 20px 20px 0 #ffee00;
+            max-width: 400px;
+            width: 100%;
         }
 
         h1 {
             font-family: 'Luckiest Guy', cursive;
-            font-size: 3.5rem;
+            font-size: 3rem;
             color: #ff007f;
             -webkit-text-stroke: 2px #000;
-            line-height: 0.9;
             margin-bottom: 20px;
         }
 
-        .church {
-            font-family: 'Bangers', cursive;
-            font-size: 1.5rem;
-            color: #00e5ff;
-            background: #000;
-            padding: 10px;
-            display: inline-block;
-            margin-top: 10px;
+        /* ELEMENTOS VOADORES (EXPLOSÃO) */
+        .boneco {
+            position: fixed;
+            font-size: 4rem;
+            pointer-events: none;
+            z-index: 10000;
         }
 
-        /* --- CONTAGEM REGRESSIVA VIBRANTE --- */
+        /* TIMER */
         .timer {
             display: flex;
-            gap: 10px;
-            margin-top: 25px;
             justify-content: center;
-        }
-
-        .unit {
-            background: #ffee00;
-            border: 4px solid #000;
-            padding: 10px;
-            min-width: 70px;
+            gap: 10px;
+            margin-top: 20px;
             font-family: 'Bangers', cursive;
         }
+        .unidade { background: #00e5ff; padding: 10px; border: 3px solid #000; min-width: 60px; }
 
-        .unit span { font-size: 2rem; display: block; color: #000; }
-
-        /* --- ELEMENTOS VOADORES --- */
-        .particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 200;
-            font-size: 3rem;
-        }
-
-        /* --- ESTADO QUANDO ABRE --- */
-        .opened {
-            transform: translateY(-120%) rotate(20deg) !important;
-            opacity: 0;
-        }
+        /* ESTADO ABERTO */
+        .sumir { transform: translateY(-120%) !important; }
     </style>
 </head>
-<body onclick="handleInteraction(event)" ontouchstart="handleInteraction(event)">
-
-    <div id="curtain-layer">
-        <div class="instruction-box">
-            <h2>CLIQUE PARA<br>EXPLODIR!</h2>
-            <p style="font-weight: bold; font-size: 1.2rem;">🚀🚀🚀</p>
-        </div>
-        <div style="font-size: 5rem; margin-top: 40px;">🎁</div>
-    </div>
-
-    <div id="invite-layer">
-        <div class="main-card">
-            <p style="font-family: 'Bangers'; letter-spacing: 5px; color: #7000ff;">SAVE THE DATE</p>
-            <h1>GEOVANA<br>&<br>FELIPE</h1>
-            <p style="font-weight: 900; margin: 15px 0;">01 DE JANEIRO DE 2026</p>
-            <div class="church">IGREJA NOSSA SENHORA DAS DORES</div>
-            
-            <div class="timer">
-                <div class="unit"><span id="d">00</span>DIAS</div>
-                <div class="unit"><span id="h">00</span>HRS</div>
-                <div class="unit"><span id="m">00</span>MIN</div>
-            </div>
-        </div>
-
-        <button style="margin-top: 30px; background: #ffee00; border: 5px solid #000; padding: 20px; font-family: 'Bangers'; font-size: 2rem; width: 100%; max-width: 380px; box-shadow: 10px 10px 0 #000;">
-            CONFIRMAR PRESENÇA!
-        </button>
-    </div>
-
-    <script>
-        let hasOpened = false;
-
-        function handleInteraction(e) {
-            const x = e.clientX || (e.touches && e.touches[0].clientX);
-            const y = e.clientY || (e.touches && e.touches[0].clientY);
-
-            // Se for o primeiro clique, abre a cortina
-            if (!hasOpened) {
-                document.getElementById('curtain-layer').classList.add('opened');
-                hasOpened = true;
-                
-                // Explosão inicial massiva
-                for(let i=0; i<30; i++) {
-                    createPop(window.innerWidth/2, window.innerHeight/2);
-                }
-            }
-
-            // Sempre que clicar, explode algo
-            createPop
+<body id="corpo">
+    
