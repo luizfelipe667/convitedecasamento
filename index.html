@@ -5,217 +5,268 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Geovana Lima | Aulas Particulares Infantis</title>
 
-<!-- Otimização para Chrome Mobile -->
 <meta name="theme-color" content="#6C63FF">
-<meta name="description" content="Aulas particulares infantis com Geovana Lima, formada pela UFPI. Ensino interativo, lúdico e personalizado.">
+<meta name="description" content="Aulas particulares infantis com Geovana Lima, formada pela UFPI. Ensino lúdico, personalizado e interativo.">
 
-<!-- Fonte Google -->
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
 body{
-    margin:0;
-    font-family:'Nunito', sans-serif;
-    background: linear-gradient(180deg, #6C63FF, #8B85FF);
-    color:#333;
+font-family:'Poppins', sans-serif;
+background: linear-gradient(180deg,#6C63FF,#8B85FF);
+color:#333;
+overflow-x:hidden;
 }
 
 .container{
-    max-width:500px;
-    margin:auto;
-    background:white;
-    min-height:100vh;
+max-width:520px;
+margin:auto;
+background:#fff;
+min-height:100vh;
+position:relative;
 }
 
-.header{
-    background: linear-gradient(135deg,#FF9F43,#FF6B6B);
-    color:white;
-    padding:30px 20px;
-    text-align:center;
+header{
+background: linear-gradient(135deg,#FF9F43,#FF6B6B);
+color:white;
+padding:40px 20px;
+text-align:center;
+animation: fadeDown 1s ease;
 }
 
-.header h1{
-    margin:0;
-    font-size:26px;
+header h1{
+font-size:26px;
+font-weight:800;
 }
 
-.header p{
-    margin-top:5px;
-    font-size:16px;
-}
-
-.section{
-    padding:20px;
-}
-
-.card{
-    background:#f8f9ff;
-    border-radius:15px;
-    padding:18px;
-    margin-bottom:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}
-
-.card h2{
-    color:#6C63FF;
-    font-size:20px;
-    margin-top:0;
-}
-
-.highlight{
-    background:#FFF4E6;
-    border-left:5px solid #FF9F43;
-}
-
-.button{
-    display:block;
-    text-align:center;
-    padding:15px;
-    border-radius:12px;
-    font-weight:700;
-    text-decoration:none;
-    margin-top:10px;
-    transition:0.3s;
-}
-
-.button:hover{
-    transform:scale(1.03);
-}
-
-.whatsapp{
-    background:#25D366;
-    color:white;
-}
-
-.checkout{
-    background:#6C63FF;
-    color:white;
-}
-
-.footer{
-    text-align:center;
-    padding:20px;
-    font-size:14px;
-    color:#777;
-}
-
-.icon{
-    font-size:22px;
+header p{
+font-size:15px;
+margin-top:8px;
+opacity:0.95;
 }
 
 .badge{
-    background:#6C63FF;
-    color:white;
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:12px;
-    display:inline-block;
-    margin-top:5px;
+display:inline-block;
+background:#fff;
+color:#6C63FF;
+padding:6px 14px;
+border-radius:20px;
+font-size:12px;
+font-weight:600;
+margin-top:12px;
+}
+
+section{
+padding:25px 20px;
+}
+
+.card{
+background:#f9f9ff;
+border-radius:18px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+animation: fadeUp 0.8s ease;
+}
+
+.card h2{
+color:#6C63FF;
+font-size:19px;
+margin-bottom:10px;
+}
+
+.highlight{
+background:#FFF4E6;
+border-left:6px solid #FF9F43;
+}
+
+ul{
+list-style:none;
+padding-left:0;
+}
+
+ul li{
+margin-bottom:8px;
+font-size:14px;
+}
+
+.depoimento{
+background:white;
+border-radius:18px;
+padding:18px;
+margin-bottom:15px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+border:1px solid #eee;
+animation: fadeUp 1s ease;
+}
+
+.depoimento strong{
+display:block;
+margin-top:10px;
+color:#6C63FF;
+}
+
+.botao{
+display:block;
+text-align:center;
+background:#6C63FF;
+color:white;
+padding:16px;
+border-radius:14px;
+text-decoration:none;
+font-weight:700;
+margin-top:10px;
+transition:0.3s;
+}
+
+.botao:hover{
+transform:scale(1.04);
+}
+
+.whatsapp-float{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+width:60px;
+height:60px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:28px;
+text-decoration:none;
+box-shadow:0 8px 20px rgba(0,0,0,0.25);
+animation: pulse 2s infinite;
+}
+
+footer{
+text-align:center;
+padding:25px;
+font-size:13px;
+color:#777;
+}
+
+/* ANIMAÇÕES */
+
+@keyframes fadeUp{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeDown{
+from{opacity:0; transform:translateY(-20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.08);}
+100%{transform:scale(1);}
 }
 
 </style>
-
 </head>
+
 <body>
 
 <div class="container">
 
-<div class="header">
+<header>
 <h1>Profª Geovana Lima</h1>
-<p>Pedagoga formada pela UFPI</p>
-<span class="badge">Especialista em Ensino Infantil</span>
-</div>
+<p>Pedagoga formada pela Universidade Federal do Piauí</p>
+<div class="badge">Ensino Infantil Personalizado</div>
+</header>
 
-<div class="section">
+<section>
 
 <div class="card highlight">
-<h2>🌟 Transforme o aprendizado do seu filho</h2>
-
+<h2>🌟 Aprendizado que transforma</h2>
 <p>
-Cada criança aprende de uma forma única. Com aulas particulares personalizadas, seu filho desenvolve habilidades essenciais como leitura, escrita, concentração e confiança.
+Cada criança tem seu ritmo. As aulas são planejadas para estimular leitura, escrita, raciocínio e concentração de forma leve, divertida e eficiente.
 </p>
-
-<p>
-As aulas são planejadas com métodos modernos, interativos e lúdicos, tornando o aprendizado prazeroso e eficaz.
-</p>
-
 </div>
 
 <div class="card">
 <h2>👩‍🏫 Sobre a professora</h2>
-
 <p>
-Geovana Lima é formada em <strong>Pedagogia pela Universidade Federal do Piauí (UFPI)</strong> e atualmente cursa <strong>Letras – Português</strong> na mesma instituição.
+Formada em <strong>Pedagogia pela UFPI</strong> e atualmente cursando <strong>Letras – Português</strong>, Geovana atua com dedicação total ao desenvolvimento infantil.
 </p>
-
 <p>
-Possui formação sólida, vocação para o ensino e dedicação total ao desenvolvimento infantil.
+Metodologia moderna, acolhedora e focada na evolução individual da criança.
 </p>
-
 </div>
 
 <div class="card">
 <h2>📚 Serviços oferecidos</h2>
-
-<p>✔ Alfabetização</p>
-<p>✔ Reforço escolar</p>
-<p>✔ Desenvolvimento da leitura</p>
-<p>✔ Escrita e coordenação motora</p>
-<p>✔ Apoio em atividades escolares</p>
-<p>✔ Ensino lúdico e interativo</p>
-
+<ul>
+<li>✔ Alfabetização</li>
+<li>✔ Reforço escolar</li>
+<li>✔ Desenvolvimento da leitura</li>
+<li>✔ Escrita e coordenação motora</li>
+<li>✔ Ensino interativo e lúdico</li>
+</ul>
 </div>
 
 <div class="card">
 <h2>🧠 Benefícios para seu filho</h2>
+<ul>
+<li>✅ Melhor desempenho escolar</li>
+<li>✅ Mais confiança e autoestima</li>
+<li>✅ Base sólida para o futuro</li>
+<li>✅ Amor pelo aprendizado</li>
+</ul>
+</div>
 
-<p>✅ Melhora no desempenho escolar</p>
-<p>✅ Mais confiança e autoestima</p>
-<p>✅ Desenvolvimento cognitivo acelerado</p>
-<p>✅ Maior interesse pelos estudos</p>
+<div class="card">
+<h2>💬 Depoimentos</h2>
+
+<div class="depoimento">
+"Meu filho evoluiu muito na leitura em poucas semanas. Ele agora estuda com prazer!"
+<strong>— Maria S.</strong>
+</div>
+
+<div class="depoimento">
+"A didática é incrível. Minha filha ganhou confiança e melhorou as notas."
+<strong>— Juliana R.</strong>
+</div>
+
+<div class="depoimento">
+"Profissional dedicada, paciente e muito competente. Recomendo!"
+<strong>— Carlos M.</strong>
+</div>
 
 </div>
 
 <div class="card highlight">
-<h2>🎯 Atendimento personalizado</h2>
+<h2>📲 Agende uma aula</h2>
+<p>Garanta um acompanhamento individual e transforme o aprendizado do seu filho.</p>
 
-<p>
-Cada aula é adaptada às necessidades da criança, respeitando seu ritmo e potencial.
-</p>
-
-<p>
-O objetivo é não apenas ensinar, mas formar uma base sólida para o futuro.
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>📲 Agende agora</h2>
-
-<a class="button whatsapp"
-href="https://wa.me/5586988968512"
-target="_blank">
+<a class="botao" href="https://wa.me/5586988968512" target="_blank">
 Falar no WhatsApp
 </a>
 
-<a class="button checkout"
-href="#"
-onclick="alert('Configure aqui o link do seu checkout (Hotmart, Kiwify, etc).')">
-Agendar Aula
+</div>
+
+</section>
+
+<footer>
+© 2026 Profª Geovana Lima • Educação com amor 💜
+</footer>
+
+</div>
+
+<a href="https://wa.me/5586988968512" target="_blank" class="whatsapp-float">
+💬
 </a>
-
-</div>
-
-</div>
-
-<div class="footer">
-© 2026 Profª Geovana Lima<br>
-Ensino infantil com amor e dedicação 💜
-</div>
-
-</div>
 
 </body>
 </html>
